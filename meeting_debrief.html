@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meeting Debrief Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Variables ─────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0c0e14;
+    --surface:  #13161f;
+    --raised:   #1b1f2d;
+    --border:   #252936;
+    --border2:  #2e3347;
+    --accent:   #e8a838;
+    --accent2:  #f5c96a;
+    --fg:       #dde3f0;
+    --fg2:      #8b92a8;
+    --fg3:      #555d75;
+    --green:    #4ade80;
+    --red:      #f87171;
+    --mono:     'DM Mono', monospace;
+    --serif:    'DM Serif Display', serif;
+    --radius:   10px;
+    --shadow:   0 4px 24px rgba(0,0,0,.45);
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  .app {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    height: 100vh;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── Header ─────────────────────────────────────────────────────────────── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0 18px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown .5s ease both;
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .logo h1 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: .01em;
+    color: var(--fg);
+  }
+
+  .logo .tag {
+    font-size: 11px;
+    color: var(--fg3);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border: 1px solid var(--border2);
+    border-radius: 99px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .model-label {
+    font-size: 11px;
+    color: var(--fg3);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  select {
+    background: var(--raised);
+    color: var(--fg);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s;
+  }
+  select:hover { border-color: var(--accent); }
+
+  /* ── Toolbar ─────────────────────────────────────────────────────────────── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0;
+    animation: fadeDown .5s .08s ease both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, opacity .15s, transform .1s;
+    border: 1px solid transparent;
+    user-select: none;
+  }
+  .btn:active { transform: scale(.97); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0c0e14;
+    font-weight: 500;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  .btn-ghost {
+    background: var(--raised);
+    color: var(--fg2);
+    border-color: var(--border2);
+  }
+  .btn-ghost:hover { border-color: var(--fg3); color: var(--fg); }
+  .btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
+
+  .btn-stop {
+    background: transparent;
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .btn-stop:hover { background: rgba(248,113,113,.08); }
+
+  .status {
+    margin-left: auto;
+    font-size: 11.5px;
+    color: var(--fg3);
+    letter-spacing: .02em;
+  }
+  .status .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--fg3);
+    margin-right: 6px;
+    vertical-align: middle;
+    transition: background .3s;
+  }
+  .status.active .dot { background: var(--accent); animation: pulse 1s infinite; }
+  .status.done   .dot { background: var(--green); }
+  .status.error  .dot { background: var(--red); }
+
+  /* ── Panels ─────────────────────────────────────────────────────────────── */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    overflow: hidden;
+    animation: fadeUp .5s .15s ease both;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--raised);
+    flex-shrink: 0;
+  }
+
+  .panel-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    color: var(--fg2);
+    text-transform: uppercase;
+  }
+
+  .panel-actions { display: flex; gap: 6px; }
+
+  .icon-btn {
+    background: none;
+    border: 1px solid var(--border2);
+    color: var(--fg3);
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--mono);
+    transition: color .15s, border-color .15s;
+  }
+  .icon-btn:hover { color: var(--fg); border-color: var(--fg3); }
+  .icon-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    color: var(--fg);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.75;
+    padding: 18px;
+    caret-color: var(--accent);
+  }
+  textarea::placeholder { color: var(--fg3); }
+  textarea::-webkit-scrollbar { width: 6px; }
+  textarea::-webkit-scrollbar-track { background: transparent; }
+  textarea::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* ── Output ─────────────────────────────────────────────────────────────── */
+  #output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+    font-size: 13px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  #output::-webkit-scrollbar { width: 6px; }
+  #output::-webkit-scrollbar-track { background: transparent; }
+  #output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  #output .md-h2 {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--accent2);
+    display: block;
+    margin: 18px 0 8px;
+    letter-spacing: .03em;
+  }
+  #output .md-h2:first-child { margin-top: 0; }
+
+  #output .md-pipe { color: var(--accent); }
+  #output .md-bold { color: var(--fg); font-weight: 500; }
+  #output .md-num  { color: var(--accent2); }
+
+  .placeholder-msg {
+    color: var(--fg3);
+    font-size: 13px;
+    padding: 8px 0;
+    font-style: italic;
+  }
+
+  /* ── Progress bar ───────────────────────────────────────────────────────── */
+  .progress-wrap {
+    height: 2px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width .3s ease;
+    border-radius: 1px;
+  }
+  .progress-bar.indeterminate {
+    width: 40%;
+    animation: slide 1.2s ease-in-out infinite;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────────────────── */
+  footer {
+    padding: 12px 0 16px;
+    font-size: 11px;
+    color: var(--fg3);
+    letter-spacing: .04em;
+    text-align: center;
+    animation: fadeUp .5s .25s ease both;
+  }
+
+  footer a { color: var(--fg3); text-decoration: none; }
+  footer a:hover { color: var(--fg2); }
+
+  /* ── Animations ─────────────────────────────────────────────────────────── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .3; }
+  }
+  @keyframes slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .panels { grid-template-columns: 1fr; }
+    .app { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>🗒 Meeting Debrief</h1>
+      <span class="tag">Local AI · Ollama</span>
+    </div>
+    <div class="header-right">
+      <span class="model-label">Model</span>
+      <select id="modelSelect">
+        <option value="llama3.2">llama3.2</option>
+        <option value="mistral">mistral</option>
+        <option value="gemma3">gemma3</option>
+        <option value="llama3.1">llama3.1</option>
+        <option value="phi4">phi4</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <button class="btn btn-primary" id="analyseBtn" onclick="startAnalysis()">
+      ✦ &nbsp;Analyse Transcript
+    </button>
+    <button class="btn btn-stop" id="stopBtn" onclick="stopAnalysis()" style="display:none">
+      ◼ &nbsp;Stop
+    </button>
+    <button class="btn btn-ghost" onclick="loadFile()">📂 &nbsp;Load file</button>
+    <button class="btn btn-ghost" id="saveBtn" onclick="saveDebrief()" disabled>💾 &nbsp;Save Markdown</button>
+    <button class="btn btn-ghost" onclick="clearAll()">✕ &nbsp;Clear all</button>
+
+    <span class="status" id="status">
+      <span class="dot"></span>
+      Ready — paste a transcript or load a file
+    </span>
+  </div>
+
+  <!-- Panels -->
+  <div class="panels">
+
+    <!-- Left: Transcript -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Transcript</span>
+        <div class="panel-actions">
+          <button class="icon-btn" onclick="clearTranscript()" title="Clear">✕ Clear</button>
+        </div>
+      </div>
+      <textarea id="transcript"
+        placeholder="Paste your meeting transcript here…&#10;&#10;Tip: Include speaker names, dates, and any mentioned deadlines for the best results.">
+      </textarea>
+    </div>
+
+    <!-- Right: Debrief Output -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Debrief</span>
+        <div class="panel-actions">
+          <button class="icon-btn" id="copyBtn" onclick="copyDebrief()" disabled title="Copy to clipboard">⎘ Copy</button>
+        </div>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+      <div id="output">
+        <span class="placeholder-msg">Your structured debrief will appear here after analysis…</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Runs locally via <a href="https://ollama.com" target="_blank">Ollama</a> · No data leaves your machine ·
+    Ensure Ollama is running on <code>localhost:11434</code>
+  </footer>
+
+</div>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept=".txt,.md" style="display:none" onchange="handleFileLoad(event)" />
+
+<script>
+const OLLAMA_URL = 'http://localhost:11434/api/chat';
+const SYSTEM_PROMPT = `You are an expert meeting analyst. When given a meeting transcript,
+you produce a concise, well-structured debrief in Markdown. Always respond with ONLY
+the following four sections — nothing else before or after:
+
+## Summary
+A single paragraph (3–5 sentences) capturing the meeting's purpose and key outcomes.
+
+## Action Items
+A Markdown table with columns: | # | Action | Owner | Due Date |
+If the owner or due date is not mentioned, use "TBD".
+
+## Decisions Made
+A numbered list of concrete decisions that were agreed upon.
+
+## Open Questions
+A numbered list of questions or issues that were raised but not resolved.
+
+Be concise. Use plain language. Do not invent information not present in the transcript.`;
+
+let controller = null;
+let fullDebrief = '';
+
+// ── Analysis ─────────────────────────────────────────────────────────────────
+
+async function startAnalysis() {
+  const transcript = document.getElementById('transcript').value.trim();
+  if (!transcript) {
+    setStatus('error', 'Please paste or load a transcript first.');
+    return;
+  }
+
+  setBusy(true);
+  clearOutput();
+  fullDebrief = '';
+
+  controller = new AbortController();
+
+  try {
+    const res = await fetch(OLLAMA_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: document.getElementById('modelSelect').value,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: `Here is the meeting transcript:\n\n${transcript}` },
+        ],
+        stream: true,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Ollama returned ${res.status}. Is it running? Try: ollama serve`);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const lines = decoder.decode(value).split('\n').filter(Boolean);
+      for (const line of lines) {
+        try {
+          const json = JSON.parse(line);
+          const token = json?.message?.content ?? '';
+          fullDebrief += token;
+          renderToken(token);
+        } catch {}
+      }
+    }
+
+    setBusy(false);
+    setStatus('done', `Done · ${new Date().toLocaleTimeString()}`);
+    document.getElementById('saveBtn').disabled = false;
+    document.getElementById('copyBtn').disabled = false;
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      setBusy(false);
+      setStatus('', 'Stopped by user.');
+    } else {
+      setBusy(false);
+      setStatus('error', err.message.includes('Failed to fetch')
+        ? 'Cannot reach Ollama. Make sure it\'s running: ollama serve'
+        : err.message
+      );
+    }
+  }
+}
+
+function stopAnalysis() {
+  if (controller) controller.abort();
+}
+
+// ── Rendering ─────────────────────────────────────────────────────────────────
+
+const outputEl = document.getElementById('output');
+let buffer = '';
+
+function clearOutput() {
+  outputEl.innerHTML = '';
+  buffer = '';
+}
+
+function renderToken(token) {
+  buffer += token;
+
+  // Re-render entire buffer for reliable Markdown colouring
+  outputEl.innerHTML = renderMarkdown(buffer);
+  outputEl.scrollTop = outputEl.scrollHeight;
+}
+
+function renderMarkdown(text) {
+  // Split into lines and annotate
+  return text.split('\n').map(line => {
+    if (line.startsWith('## ')) {
+      return `<span class="md-h2">${escHtml(line)}</span>`;
+    }
+    if (/^\|/.test(line)) {
+      return escHtml(line).replace(/\|/g, '<span class="md-pipe">|</span>') + '\n';
+    }
+    if (/^\d+\./.test(line)) {
+      return escHtml(line).replace(/^(\d+\.)/, '<span class="md-num">$1</span>') + '\n';
+    }
+    return escHtml(line) + '\n';
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+
+function setBusy(busy) {
+  const analyseBtn = document.getElementById('analyseBtn');
+  const stopBtn    = document.getElementById('stopBtn');
+  const bar        = document.getElementById('progressBar');
+
+  analyseBtn.disabled = busy;
+  analyseBtn.textContent = busy ? '⏳  Analysing…' : '✦  Analyse Transcript';
+  stopBtn.style.display = busy ? 'inline-flex' : 'none';
+
+  if (busy) {
+    bar.classList.add('indeterminate');
+    setStatus('active', `Streaming from ${document.getElementById('modelSelect').value}…`);
+  } else {
+    bar.classList.remove('indeterminate');
+    bar.style.width = '0%';
+  }
+}
+
+function setStatus(type, msg) {
+  const el = document.getElementById('status');
+  el.className = 'status ' + type;
+  el.innerHTML = `<span class="dot"></span>${msg}`;
+}
+
+function clearTranscript() {
+  document.getElementById('transcript').value = '';
+  setStatus('', 'Transcript cleared.');
+}
+
+function clearAll() {
+  clearTranscript();
+  clearOutput();
+  outputEl.innerHTML = '<span class="placeholder-msg">Your structured debrief will appear here after analysis…</span>';
+  document.getElementById('saveBtn').disabled = true;
+  document.getElementById('copyBtn').disabled = true;
+  fullDebrief = '';
+  setStatus('', 'Ready — paste a transcript or load a file.');
+}
+
+// ── File I/O ──────────────────────────────────────────────────────────────────
+
+function loadFile() {
+  document.getElementById('fileInput').click();
+}
+
+function handleFileLoad(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('transcript').value = e.target.result;
+    setStatus('', `Loaded: ${file.name}`);
+  };
+  reader.readAsText(file);
+  event.target.value = ''; // allow re-selecting same file
+}
+
+function saveDebrief() {
+  if (!fullDebrief) return;
+  const now = new Date();
+  const ts  = now.toISOString().slice(0,16).replace('T','_').replace(':','-');
+  const header = `# Meeting Debrief\n_Generated: ${now.toLocaleString()}_\n\n`;
+  const blob = new Blob([header + fullDebrief], { type: 'text/markdown' });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: `debrief_${ts}.md`,
+  });
+  a.click();
+  URL.revokeObjectURL(a.href);
+  setStatus('done', 'Saved!');
+}
+
+function copyDebrief() {
+  if (!fullDebrief) return;
+  navigator.clipboard.writeText(fullDebrief).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = '⎘ Copy', 2000);
+  });
+}
+
+// Allow Ctrl+Enter to trigger analysis
+document.getElementById('transcript').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') startAnalysis();
+});
+</script>
+</body>
+</html>
