@@ -1,0 +1,41 @@
+Meeting: Q3 Product Roadmap Review
+Date: May 9, 2026
+Attendees: Sarah (PM), James (Engineering Lead), Priya (Design), Tom (Marketing)
+
+Sarah: Alright let's get started. Today we're reviewing the Q3 roadmap and deciding what we're actually committing to. James, where are we on the dashboard redesign?
+
+James: We're about 60% done. The new charting library is integrated but we still have performance issues on large datasets — more than 10,000 rows and it starts to lag. We need another two weeks minimum.
+
+Priya: The Figma handoff is ready on my end. All the edge cases are documented. I'm blocked waiting on James's team.
+
+Sarah: Okay so let's make it official — the dashboard redesign ships in week 3 of June. James, can you commit to that?
+
+James: Yes, as long as we don't get pulled onto the mobile bugs again.
+
+Sarah: Agreed. We deprioritize mobile fixes until the dashboard is out. Tom, what's the marketing situation?
+
+Tom: We're planning a launch email and a Product Hunt post. I need the feature list and screenshots by June 10th at the latest. Otherwise we lose the Thursday slot we reserved.
+
+Sarah: James, can you get Tom the screenshots by June 10th?
+
+James: That should be fine. Priya, can you export the final screens?
+
+Priya: Sure, I'll do that by June 8th so James has time to review.
+
+Sarah: Perfect. Next topic — the CSV export feature. Priya, did you finish the spec?
+
+Priya: Almost. I have one open question: should users be able to export filtered data only, or always the full dataset? I couldn't find a clear answer in the original requirements.
+
+Sarah: Good question. Let's not block on it — build full dataset export first, we can add filter support later.
+
+Tom: One more thing — a few enterprise customers have been asking about SSO. Where does that sit?
+
+Sarah: We haven't scoped it yet. James, can you give me a rough estimate by end of next week?
+
+James: I'll look into it and send you a Slack message by Friday.
+
+Sarah: Great. I think that's everything. Let's wrap up. Priya exports screens by June 8th, James ships dashboard by week 3 of June and sends SSO estimate by Friday, Tom coordinates the Product Hunt launch. Any questions?
+
+Tom: All clear.
+
+Sarah: Great, talk next week.
