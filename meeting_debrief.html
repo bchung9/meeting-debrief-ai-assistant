@@ -6,7 +6,6 @@
 <title>Meeting Debrief Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-  /* ── Reset & Variables ─────────────────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -22,10 +21,10 @@
     --fg3:      #555d75;
     --green:    #4ade80;
     --red:      #f87171;
+    --blue:     #60a5fa;
     --mono:     'DM Mono', monospace;
     --serif:    'DM Serif Display', serif;
     --radius:   10px;
-    --shadow:   0 4px 24px rgba(0,0,0,.45);
   }
 
   html, body {
@@ -37,300 +36,204 @@
     line-height: 1.6;
   }
 
-  /* ── Layout ─────────────────────────────────────────────────────────────── */
   .app {
     display: grid;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto auto auto auto 1fr auto;
     height: 100vh;
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 28px;
   }
 
-  /* ── Header ─────────────────────────────────────────────────────────────── */
+  /* ── Header ── */
   header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px 0 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0 16px;
     border-bottom: 1px solid var(--border);
     animation: fadeDown .5s ease both;
   }
-
-  .logo {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .logo h1 {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: .01em;
-    color: var(--fg);
-  }
-
+  .logo { display: flex; align-items: baseline; gap: 12px; }
+  .logo h1 { font-family: var(--serif); font-size: 22px; font-weight: 400; }
   .logo .tag {
-    font-size: 11px;
-    color: var(--fg3);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border: 1px solid var(--border2);
-    border-radius: 99px;
+    font-size: 11px; color: var(--fg3); letter-spacing: .08em;
+    text-transform: uppercase; padding: 2px 8px;
+    border: 1px solid var(--border2); border-radius: 99px;
   }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .model-label {
-    font-size: 11px;
-    color: var(--fg3);
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
+  .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+  .model-label { font-size: 11px; color: var(--fg3); letter-spacing: .06em; text-transform: uppercase; }
 
   select {
-    background: var(--raised);
-    color: var(--fg);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 7px 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-    cursor: pointer;
-    outline: none;
-    transition: border-color .2s;
+    background: var(--raised); color: var(--fg);
+    border: 1px solid var(--border2); border-radius: var(--radius);
+    padding: 6px 10px; font-family: var(--mono); font-size: 12.5px;
+    cursor: pointer; outline: none; transition: border-color .2s;
   }
   select:hover { border-color: var(--accent); }
 
-  /* ── Toolbar ─────────────────────────────────────────────────────────────── */
+  /* ── Toolbar ── */
   .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 0;
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 0;
     animation: fadeDown .5s .08s ease both;
+    flex-wrap: wrap;
+  }
+  .toolbar-sep { width: 1px; height: 20px; background: var(--border2); margin: 0 2px; flex-shrink: 0; }
+
+  /* ── Audio bar ── */
+  .audio-bar {
+    display: none;
+    align-items: center; gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--blue);
+    border-radius: var(--radius);
+    margin-bottom: 4px;
+    animation: fadeDown .3s ease both;
+  }
+  .audio-bar.visible { display: flex; }
+  .audio-filename {
+    font-size: 11.5px; color: var(--fg2);
+    max-width: 180px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0;
+  }
+  .audio-bar audio {
+    flex: 1; height: 30px; min-width: 0;
+    accent-color: var(--accent);
+  }
+  .whisper-badge {
+    font-size: 10.5px; color: var(--blue);
+    background: rgba(96,165,250,.08);
+    padding: 2px 8px; border-radius: 99px;
+    border: 1px solid rgba(96,165,250,.2);
+    flex-shrink: 0; white-space: nowrap;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+  /* ── Whisper progress ── */
+  .whisper-progress {
+    display: none;
+    flex-direction: column; gap: 6px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--blue);
     border-radius: var(--radius);
-    font-family: var(--mono);
-    font-size: 12.5px;
+    margin-bottom: 4px;
+    animation: fadeDown .3s ease both;
+  }
+  .whisper-progress.visible { display: flex; }
+  .wp-header { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; }
+  .wp-label  { color: var(--fg2); }
+  .wp-pct    { color: var(--blue); font-weight: 500; }
+  .wp-track  { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+  .wp-fill   { height: 100%; background: var(--blue); border-radius: 2px; width: 0%; transition: width .25s ease; }
+  .wp-fill.indeterminate { width: 35%; animation: sweep 1.1s ease-in-out infinite; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: var(--radius);
+    font-family: var(--mono); font-size: 12.5px;
     cursor: pointer;
     transition: background .15s, border-color .15s, opacity .15s, transform .1s;
-    border: 1px solid transparent;
-    user-select: none;
+    border: 1px solid transparent; user-select: none; white-space: nowrap;
   }
   .btn:active { transform: scale(.97); }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #0c0e14;
-    font-weight: 500;
-    border-color: var(--accent);
-  }
+  .btn-primary { background: var(--accent); color: #0c0e14; font-weight: 500; border-color: var(--accent); }
   .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
   .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-
-  .btn-ghost {
-    background: var(--raised);
-    color: var(--fg2);
-    border-color: var(--border2);
-  }
+  .btn-ghost { background: var(--raised); color: var(--fg2); border-color: var(--border2); }
   .btn-ghost:hover { border-color: var(--fg3); color: var(--fg); }
   .btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
-
-  .btn-stop {
-    background: transparent;
-    color: var(--red);
-    border-color: var(--red);
-  }
+  .btn-audio { background: var(--raised); color: var(--blue); border-color: rgba(96,165,250,.4); }
+  .btn-audio:hover { background: rgba(96,165,250,.08); border-color: var(--blue); }
+  .btn-audio:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-stop { background: transparent; color: var(--red); border-color: var(--red); }
   .btn-stop:hover { background: rgba(248,113,113,.08); }
 
-  .status {
-    margin-left: auto;
-    font-size: 11.5px;
-    color: var(--fg3);
-    letter-spacing: .02em;
-  }
-  .status .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--fg3);
-    margin-right: 6px;
-    vertical-align: middle;
-    transition: background .3s;
-  }
-  .status.active .dot { background: var(--accent); animation: pulse 1s infinite; }
-  .status.done   .dot { background: var(--green); }
-  .status.error  .dot { background: var(--red); }
-
-  /* ── Panels ─────────────────────────────────────────────────────────────── */
-  .panels {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    overflow: hidden;
-    animation: fadeUp .5s .15s ease both;
-  }
-
-  .panel {
-    display: flex;
-    flex-direction: column;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--raised);
-    flex-shrink: 0;
-  }
-
-  .panel-title {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: .04em;
-    color: var(--fg2);
-    text-transform: uppercase;
-  }
-
-  .panel-actions { display: flex; gap: 6px; }
-
   .icon-btn {
-    background: none;
-    border: 1px solid var(--border2);
-    color: var(--fg3);
-    border-radius: 6px;
-    padding: 4px 9px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: var(--mono);
+    background: none; border: 1px solid var(--border2); color: var(--fg3);
+    border-radius: 6px; padding: 4px 9px; font-size: 12px;
+    cursor: pointer; font-family: var(--mono);
     transition: color .15s, border-color .15s;
   }
   .icon-btn:hover { color: var(--fg); border-color: var(--fg3); }
   .icon-btn:disabled { opacity: .35; cursor: not-allowed; }
 
+  /* ── Status ── */
+  .status { margin-left: auto; font-size: 11.5px; color: var(--fg3); letter-spacing: .02em; }
+  .status .dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--fg3);
+    margin-right: 6px; vertical-align: middle; transition: background .3s;
+  }
+  .status.active     .dot { background: var(--accent); animation: pulse 1s infinite; }
+  .status.transcribe .dot { background: var(--blue);   animation: pulse 1s infinite; }
+  .status.done       .dot { background: var(--green); }
+  .status.error      .dot { background: var(--red); }
+
+  /* ── Panels ── */
+  .panels {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    overflow: hidden; animation: fadeUp .5s .15s ease both;
+  }
+  .panel {
+    display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 16px; border-bottom: 1px solid var(--border);
+    background: var(--raised); flex-shrink: 0;
+  }
+  .panel-title { font-family: var(--serif); font-size: 14px; font-weight: 400; letter-spacing: .04em; color: var(--fg2); text-transform: uppercase; }
+  .panel-actions { display: flex; gap: 6px; }
+
   textarea {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    resize: none;
-    color: var(--fg);
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.75;
-    padding: 18px;
+    flex: 1; background: transparent; border: none; outline: none;
+    resize: none; color: var(--fg); font-family: var(--mono);
+    font-size: 13px; line-height: 1.75; padding: 18px;
     caret-color: var(--accent);
   }
   textarea::placeholder { color: var(--fg3); }
   textarea::-webkit-scrollbar { width: 6px; }
-  textarea::-webkit-scrollbar-track { background: transparent; }
   textarea::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
-  /* ── Output ─────────────────────────────────────────────────────────────── */
+  /* ── Output ── */
   #output {
-    flex: 1;
-    overflow-y: auto;
-    padding: 18px;
-    font-size: 13px;
-    line-height: 1.75;
-    white-space: pre-wrap;
-    word-break: break-word;
+    flex: 1; overflow-y: auto; padding: 18px;
+    font-size: 13px; line-height: 1.75;
+    white-space: pre-wrap; word-break: break-word;
   }
   #output::-webkit-scrollbar { width: 6px; }
-  #output::-webkit-scrollbar-track { background: transparent; }
   #output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-  #output .md-h2 {
-    font-family: var(--serif);
-    font-size: 16px;
-    color: var(--accent2);
-    display: block;
-    margin: 18px 0 8px;
-    letter-spacing: .03em;
-  }
+  #output .md-h2 { font-family: var(--serif); font-size: 16px; color: var(--accent2); display: block; margin: 18px 0 8px; letter-spacing: .03em; }
   #output .md-h2:first-child { margin-top: 0; }
-
   #output .md-pipe { color: var(--accent); }
-  #output .md-bold { color: var(--fg); font-weight: 500; }
   #output .md-num  { color: var(--accent2); }
+  .placeholder-msg { color: var(--fg3); font-size: 13px; padding: 8px 0; font-style: italic; }
 
-  .placeholder-msg {
-    color: var(--fg3);
-    font-size: 13px;
-    padding: 8px 0;
-    font-style: italic;
-  }
+  /* ── Progress bar (Ollama) ── */
+  .progress-wrap { height: 2px; background: var(--border); flex-shrink: 0; }
+  .progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width .3s; border-radius: 1px; }
+  .progress-bar.indeterminate { width: 40%; animation: sweep 1.2s ease-in-out infinite; }
 
-  /* ── Progress bar ───────────────────────────────────────────────────────── */
-  .progress-wrap {
-    height: 2px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--accent);
-    transition: width .3s ease;
-    border-radius: 1px;
-  }
-  .progress-bar.indeterminate {
-    width: 40%;
-    animation: slide 1.2s ease-in-out infinite;
-  }
-
-  /* ── Footer ─────────────────────────────────────────────────────────────── */
+  /* ── Footer ── */
   footer {
-    padding: 12px 0 16px;
-    font-size: 11px;
-    color: var(--fg3);
-    letter-spacing: .04em;
-    text-align: center;
+    padding: 12px 0 16px; font-size: 11px; color: var(--fg3);
+    letter-spacing: .04em; text-align: center;
     animation: fadeUp .5s .25s ease both;
   }
-
   footer a { color: var(--fg3); text-decoration: none; }
   footer a:hover { color: var(--fg2); }
 
-  /* ── Animations ─────────────────────────────────────────────────────────── */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: .3; }
-  }
-  @keyframes slide {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(350%); }
-  }
+  /* ── Animations ── */
+  @keyframes fadeDown  { from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none} }
+  @keyframes fadeUp    { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+  @keyframes pulse     { 0%,100%{opacity:1}50%{opacity:.25} }
+  @keyframes sweep     { 0%{transform:translateX(-100%)}100%{transform:translateX(350%)} }
 
-  /* ── Responsive ─────────────────────────────────────────────────────────── */
   @media (max-width: 768px) {
     .panels { grid-template-columns: 1fr; }
     .app { padding: 0 14px; }
@@ -343,11 +246,11 @@
   <!-- Header -->
   <header>
     <div class="logo">
-      <h1>🗒 Meeting Debrief</h1>
-      <span class="tag">Local AI · Ollama</span>
+      <h1>🗒  Meeting Debrief</h1>
+      <span class="tag">Local AI · Ollama + Whisper</span>
     </div>
     <div class="header-right">
-      <span class="model-label">Model</span>
+      <span class="model-label">LLM</span>
       <select id="modelSelect">
         <option value="llama3.2">llama3.2</option>
         <option value="mistral">mistral</option>
@@ -355,49 +258,71 @@
         <option value="llama3.1">llama3.1</option>
         <option value="phi4">phi4</option>
       </select>
+      <span class="model-label" style="margin-left:6px">Whisper</span>
+      <select id="whisperModel">
+        <option value="Xenova/whisper-tiny.en">tiny.en · ~75 MB · fastest</option>
+        <option value="Xenova/whisper-base.en" selected>base.en · ~145 MB · balanced</option>
+        <option value="Xenova/whisper-small.en">small.en · ~470 MB · best quality</option>
+      </select>
     </div>
   </header>
 
   <!-- Toolbar -->
   <div class="toolbar">
-    <button class="btn btn-primary" id="analyseBtn" onclick="startAnalysis()">
-      ✦ &nbsp;Analyse Transcript
-    </button>
-    <button class="btn btn-stop" id="stopBtn" onclick="stopAnalysis()" style="display:none">
-      ◼ &nbsp;Stop
-    </button>
-    <button class="btn btn-ghost" onclick="loadFile()">📂 &nbsp;Load file</button>
-    <button class="btn btn-ghost" id="saveBtn" onclick="saveDebrief()" disabled>💾 &nbsp;Save Markdown</button>
-    <button class="btn btn-ghost" onclick="clearAll()">✕ &nbsp;Clear all</button>
-
+    <button class="btn btn-primary" id="analyseBtn"    onclick="startAnalysis()">✦ &nbsp;Analyse</button>
+    <button class="btn btn-stop"    id="stopBtn"       onclick="stopAnalysis()" style="display:none">◼ &nbsp;Stop</button>
+    <div class="toolbar-sep"></div>
+    <button class="btn btn-ghost"                      onclick="loadTextFile()">📂 &nbsp;Load .txt</button>
+    <button class="btn btn-audio"   id="audioUploadBtn" onclick="loadAudioFile()">🎙 &nbsp;Upload Audio</button>
+    <button class="btn btn-audio"   id="transcribeBtn" onclick="transcribeAudio()" style="display:none">⟳ &nbsp;Transcribe</button>
+    <div class="toolbar-sep"></div>
+    <button class="btn btn-ghost"   id="saveBtn"       onclick="saveDebrief()" disabled>💾 &nbsp;Save Markdown</button>
+    <button class="btn btn-ghost"                      onclick="clearAll()">✕ &nbsp;Clear all</button>
     <span class="status" id="status">
       <span class="dot"></span>
-      Ready — paste a transcript or load a file
+      Ready — paste a transcript, load a file, or upload audio
     </span>
+  </div>
+
+  <!-- Audio player bar -->
+  <div class="audio-bar" id="audioBar">
+    <span class="audio-filename" id="audioFilename">—</span>
+    <audio id="audioPlayer" controls></audio>
+    <span class="whisper-badge" id="whisperBadge">—</span>
+    <button class="icon-btn" onclick="clearAudio()">✕</button>
+  </div>
+
+  <!-- Whisper transcription progress -->
+  <div class="whisper-progress" id="whisperProgress">
+    <div class="wp-header">
+      <span class="wp-label" id="wpLabel">Initialising Whisper…</span>
+      <span class="wp-pct"   id="wpPct"></span>
+    </div>
+    <div class="wp-track"><div class="wp-fill" id="wpFill"></div></div>
   </div>
 
   <!-- Panels -->
   <div class="panels">
 
-    <!-- Left: Transcript -->
+    <!-- Transcript -->
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title">Transcript</span>
         <div class="panel-actions">
-          <button class="icon-btn" onclick="clearTranscript()" title="Clear">✕ Clear</button>
+          <button class="icon-btn" onclick="clearTranscript()">✕ Clear</button>
         </div>
       </div>
       <textarea id="transcript"
-        placeholder="Paste your meeting transcript here…&#10;&#10;Tip: Include speaker names, dates, and any mentioned deadlines for the best results.">
+        placeholder="Paste your meeting transcript here…&#10;&#10;Or upload an audio file and click ⟳ Transcribe to auto-generate it.&#10;&#10;Tip: Ctrl+Enter to analyse.">
       </textarea>
     </div>
 
-    <!-- Right: Debrief Output -->
+    <!-- Debrief -->
     <div class="panel">
       <div class="panel-header">
         <span class="panel-title">Debrief</span>
         <div class="panel-actions">
-          <button class="icon-btn" id="copyBtn" onclick="copyDebrief()" disabled title="Copy to clipboard">⎘ Copy</button>
+          <button class="icon-btn" id="copyBtn" onclick="copyDebrief()" disabled>⎘ Copy</button>
         </div>
       </div>
       <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
@@ -410,17 +335,26 @@
 
   <!-- Footer -->
   <footer>
-    Runs locally via <a href="https://ollama.com" target="_blank">Ollama</a> · No data leaves your machine ·
-    Ensure Ollama is running on <code>localhost:11434</code>
+    LLM via <a href="https://ollama.com" target="_blank">Ollama</a> &nbsp;·&nbsp;
+    Speech-to-text via <a href="https://huggingface.co/Xenova" target="_blank">Whisper (Transformers.js)</a> &nbsp;·&nbsp;
+    No data leaves your machine
   </footer>
 
 </div>
 
-<!-- Hidden file input -->
-<input type="file" id="fileInput" accept=".txt,.md" style="display:none" onchange="handleFileLoad(event)" />
+<!-- Hidden inputs -->
+<input type="file" id="textFileInput"  accept=".txt,.md"                          style="display:none" onchange="handleTextFile(event)" />
+<input type="file" id="audioFileInput" accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm" style="display:none" onchange="handleAudioFile(event)" />
 
-<script>
-const OLLAMA_URL = 'http://localhost:11434/api/chat';
+<script type="module">
+import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js';
+
+// Keep models cached in browser (IndexedDB) after first download
+env.allowLocalModels = false;
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+const OLLAMA_URL   = 'http://localhost:11434/api/chat';
 const SYSTEM_PROMPT = `You are an expert meeting analyst. When given a meeting transcript,
 you produce a concise, well-structured debrief in Markdown. Always respond with ONLY
 the following four sections — nothing else before or after:
@@ -440,31 +374,34 @@ A numbered list of questions or issues that were raised but not resolved.
 
 Be concise. Use plain language. Do not invent information not present in the transcript.`;
 
-let controller = null;
-let fullDebrief = '';
+// ── State ─────────────────────────────────────────────────────────────────────
 
-// ── Analysis ─────────────────────────────────────────────────────────────────
+let ollamaController = null;
+let fullDebrief      = '';
+let whisperPipe      = null;   // reused across transcriptions
+let audioFile        = null;
+let isTranscribing   = false;
 
-async function startAnalysis() {
+// ── Ollama Analysis ───────────────────────────────────────────────────────────
+
+window.startAnalysis = async function () {
   const transcript = document.getElementById('transcript').value.trim();
   if (!transcript) {
-    setStatus('error', 'Please paste or load a transcript first.');
+    setStatus('error', 'Please paste, load, or transcribe a transcript first.');
     return;
   }
-
   setBusy(true);
   clearOutput();
-  fullDebrief = '';
-
-  controller = new AbortController();
+  fullDebrief      = '';
+  ollamaController = new AbortController();
 
   try {
     const res = await fetch(OLLAMA_URL, {
-      method: 'POST',
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
+      signal:  ollamaController.signal,
       body: JSON.stringify({
-        model: document.getElementById('modelSelect').value,
+        model:    document.getElementById('modelSelect').value,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user',   content: `Here is the meeting transcript:\n\n${transcript}` },
@@ -473,24 +410,19 @@ async function startAnalysis() {
       }),
     });
 
-    if (!res.ok) {
-      throw new Error(`Ollama returned ${res.status}. Is it running? Try: ollama serve`);
-    }
+    if (!res.ok) throw new Error(`Ollama returned ${res.status} — is it running? Try: ollama serve`);
 
-    const reader = res.body.getReader();
+    const reader  = res.body.getReader();
     const decoder = new TextDecoder();
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
-      const lines = decoder.decode(value).split('\n').filter(Boolean);
-      for (const line of lines) {
+      for (const line of decoder.decode(value).split('\n').filter(Boolean)) {
         try {
-          const json = JSON.parse(line);
-          const token = json?.message?.content ?? '';
+          const token = JSON.parse(line)?.message?.content ?? '';
           fullDebrief += token;
-          renderToken(token);
+          renderMarkdown(fullDebrief);
         } catch {}
       }
     }
@@ -501,72 +433,198 @@ async function startAnalysis() {
     document.getElementById('copyBtn').disabled = false;
 
   } catch (err) {
-    if (err.name === 'AbortError') {
-      setBusy(false);
-      setStatus('', 'Stopped by user.');
-    } else {
-      setBusy(false);
-      setStatus('error', err.message.includes('Failed to fetch')
-        ? 'Cannot reach Ollama. Make sure it\'s running: ollama serve'
-        : err.message
-      );
+    setBusy(false);
+    if (err.name === 'AbortError') setStatus('', 'Stopped.');
+    else setStatus('error', err.message.includes('Failed to fetch')
+      ? "Cannot reach Ollama — run: OLLAMA_ORIGINS='*' ollama serve"
+      : err.message);
+  }
+};
+
+window.stopAnalysis = function () { ollamaController?.abort(); };
+
+// ── Audio: load ───────────────────────────────────────────────────────────────
+
+window.loadAudioFile   = () => document.getElementById('audioFileInput').click();
+window.handleAudioFile = function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  audioFile = file;
+
+  const url = URL.createObjectURL(file);
+  document.getElementById('audioPlayer').src        = url;
+  document.getElementById('audioFilename').textContent = file.name;
+  document.getElementById('audioBar').classList.add('visible');
+  document.getElementById('transcribeBtn').style.display = 'inline-flex';
+
+  const modelShort = document.getElementById('whisperModel').value.split('/')[1];
+  document.getElementById('whisperBadge').textContent =
+    whisperPipe ? `✓ ${modelShort} ready` : `${modelShort} · loads on first transcribe`;
+
+  setStatus('', `Audio loaded: ${file.name} — click ⟳ Transcribe`);
+  e.target.value = '';
+};
+
+window.clearAudio = function () {
+  audioFile = null;
+  document.getElementById('audioPlayer').src = '';
+  document.getElementById('audioBar').classList.remove('visible');
+  document.getElementById('transcribeBtn').style.display = 'none';
+  setStatus('', 'Audio cleared.');
+};
+
+// ── Audio: transcribe (Whisper via Transformers.js) ───────────────────────────
+
+window.transcribeAudio = async function () {
+  if (!audioFile || isTranscribing) return;
+  isTranscribing = true;
+
+  const modelId    = document.getElementById('whisperModel').value;
+  const modelShort = modelId.split('/')[1];
+
+  const progressEl    = document.getElementById('whisperProgress');
+  const fillEl        = document.getElementById('wpFill');
+  const labelEl       = document.getElementById('wpLabel');
+  const pctEl         = document.getElementById('wpPct');
+  const badge         = document.getElementById('whisperBadge');
+  const transcribeBtn = document.getElementById('transcribeBtn');
+
+  transcribeBtn.disabled = true;
+  progressEl.classList.add('visible');
+
+  // ── 1. Load Whisper (cached after first download) ──
+  if (!whisperPipe) {
+    labelEl.textContent = `Downloading ${modelShort} — first run only, cached after this…`;
+    fillEl.classList.add('indeterminate');
+    pctEl.textContent   = '';
+    setStatus('transcribe', `Downloading ${modelShort}…`);
+
+    try {
+      whisperPipe = await pipeline('automatic-speech-recognition', modelId, {
+        progress_callback: ({ status, file: f, loaded, total }) => {
+          if (status === 'downloading') {
+            const pct = total ? Math.round((loaded / total) * 100) : 0;
+            fillEl.classList.remove('indeterminate');
+            fillEl.style.width  = pct + '%';
+            labelEl.textContent = `Downloading ${f ?? modelShort}…`;
+            pctEl.textContent   = pct + '%';
+          }
+          if (status === 'loading') {
+            fillEl.style.width  = '95%';
+            labelEl.textContent = 'Loading model into memory…';
+            pctEl.textContent   = '95%';
+          }
+        },
+      });
+    } catch (err) {
+      progressEl.classList.remove('visible');
+      isTranscribing = false;
+      transcribeBtn.disabled = false;
+      setStatus('error', 'Failed to load Whisper: ' + err.message);
+      return;
     }
   }
-}
 
-function stopAnalysis() {
-  if (controller) controller.abort();
-}
+  badge.textContent = `✓ ${modelShort} loaded`;
+
+  // ── 2. Decode audio to 16 kHz Float32Array ──
+  fillEl.classList.remove('indeterminate');
+  fillEl.style.width  = '100%';
+  labelEl.textContent = 'Decoding audio…';
+  pctEl.textContent   = '';
+  setStatus('transcribe', 'Decoding audio…');
+
+  let audioData;
+  try {
+    const arrayBuf = await audioFile.arrayBuffer();
+    const audioCtx = new AudioContext({ sampleRate: 16000 });
+    const decoded  = await audioCtx.decodeAudioData(arrayBuf);
+    audioData      = decoded.getChannelData(0);   // mono Float32Array @ 16 kHz
+    await audioCtx.close();
+  } catch (err) {
+    progressEl.classList.remove('visible');
+    isTranscribing = false;
+    transcribeBtn.disabled = false;
+    setStatus('error', 'Could not decode audio: ' + err.message);
+    return;
+  }
+
+  const durationSec = Math.round(audioData.length / 16000);
+
+  // ── 3. Run Whisper ──
+  fillEl.classList.add('indeterminate');
+  labelEl.textContent = `Transcribing ${durationSec}s of audio…`;
+  pctEl.textContent   = '';
+  setStatus('transcribe', `Transcribing ${durationSec}s with ${modelShort}…`);
+
+  try {
+    const result = await whisperPipe(audioData, {
+      chunk_length_s:    30,
+      stride_length_s:   5,
+      language:          'english',
+      task:              'transcribe',
+      return_timestamps: false,
+    });
+
+    document.getElementById('transcript').value = (result.text ?? '').trim();
+    progressEl.classList.remove('visible');
+    isTranscribing = false;
+    transcribeBtn.disabled = false;
+    setStatus('done', `✓ Transcribed ${durationSec}s of audio — review & click Analyse`);
+  } catch (err) {
+    progressEl.classList.remove('visible');
+    isTranscribing = false;
+    transcribeBtn.disabled = false;
+    setStatus('error', 'Transcription failed: ' + err.message);
+  }
+};
+
+// ── Text file load ────────────────────────────────────────────────────────────
+
+window.loadTextFile   = () => document.getElementById('textFileInput').click();
+window.handleTextFile = function (e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('transcript').value = ev.target.result;
+    setStatus('', `Loaded: ${file.name}`);
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+};
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
 
 const outputEl = document.getElementById('output');
-let buffer = '';
 
 function clearOutput() {
   outputEl.innerHTML = '';
-  buffer = '';
-}
-
-function renderToken(token) {
-  buffer += token;
-
-  // Re-render entire buffer for reliable Markdown colouring
-  outputEl.innerHTML = renderMarkdown(buffer);
-  outputEl.scrollTop = outputEl.scrollHeight;
 }
 
 function renderMarkdown(text) {
-  // Split into lines and annotate
-  return text.split('\n').map(line => {
-    if (line.startsWith('## ')) {
-      return `<span class="md-h2">${escHtml(line)}</span>`;
-    }
-    if (/^\|/.test(line)) {
-      return escHtml(line).replace(/\|/g, '<span class="md-pipe">|</span>') + '\n';
-    }
-    if (/^\d+\./.test(line)) {
-      return escHtml(line).replace(/^(\d+\.)/, '<span class="md-num">$1</span>') + '\n';
-    }
-    return escHtml(line) + '\n';
+  outputEl.innerHTML = text.split('\n').map(line => {
+    if (line.startsWith('## ')) return `<span class="md-h2">${esc(line)}</span>`;
+    if (/^\|/.test(line))       return esc(line).replace(/\|/g, '<span class="md-pipe">|</span>') + '\n';
+    if (/^\d+\./.test(line))    return esc(line).replace(/^(\d+\.)/, '<span class="md-num">$1</span>') + '\n';
+    return esc(line) + '\n';
   }).join('');
+  outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-function escHtml(s) {
+function esc(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
 
 function setBusy(busy) {
-  const analyseBtn = document.getElementById('analyseBtn');
-  const stopBtn    = document.getElementById('stopBtn');
-  const bar        = document.getElementById('progressBar');
-
-  analyseBtn.disabled = busy;
-  analyseBtn.textContent = busy ? '⏳  Analysing…' : '✦  Analyse Transcript';
-  stopBtn.style.display = busy ? 'inline-flex' : 'none';
-
+  const ab  = document.getElementById('analyseBtn');
+  const sb  = document.getElementById('stopBtn');
+  const bar = document.getElementById('progressBar');
+  ab.disabled    = busy;
+  ab.textContent = busy ? '⏳  Analysing…' : '✦  Analyse';
+  sb.style.display = busy ? 'inline-flex' : 'none';
   if (busy) {
     bar.classList.add('indeterminate');
     setStatus('active', `Streaming from ${document.getElementById('modelSelect').value}…`);
@@ -582,66 +640,56 @@ function setStatus(type, msg) {
   el.innerHTML = `<span class="dot"></span>${msg}`;
 }
 
-function clearTranscript() {
+window.clearTranscript = function () {
   document.getElementById('transcript').value = '';
   setStatus('', 'Transcript cleared.');
-}
+};
 
-function clearAll() {
-  clearTranscript();
+window.clearAll = function () {
+  window.clearTranscript();
   clearOutput();
   outputEl.innerHTML = '<span class="placeholder-msg">Your structured debrief will appear here after analysis…</span>';
   document.getElementById('saveBtn').disabled = true;
   document.getElementById('copyBtn').disabled = true;
   fullDebrief = '';
-  setStatus('', 'Ready — paste a transcript or load a file.');
-}
+  window.clearAudio();
+  setStatus('', 'Ready — paste a transcript, load a file, or upload audio.');
+};
 
-// ── File I/O ──────────────────────────────────────────────────────────────────
-
-function loadFile() {
-  document.getElementById('fileInput').click();
-}
-
-function handleFileLoad(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('transcript').value = e.target.result;
-    setStatus('', `Loaded: ${file.name}`);
-  };
-  reader.readAsText(file);
-  event.target.value = ''; // allow re-selecting same file
-}
-
-function saveDebrief() {
+window.saveDebrief = function () {
   if (!fullDebrief) return;
   const now = new Date();
   const ts  = now.toISOString().slice(0,16).replace('T','_').replace(':','-');
-  const header = `# Meeting Debrief\n_Generated: ${now.toLocaleString()}_\n\n`;
-  const blob = new Blob([header + fullDebrief], { type: 'text/markdown' });
+  const hdr = `# Meeting Debrief\n_Generated: ${now.toLocaleString()}_\n\n`;
+  const blob = new Blob([hdr + fullDebrief], { type: 'text/markdown' });
   const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: `debrief_${ts}.md`,
+    href: URL.createObjectURL(blob), download: `debrief_${ts}.md`,
   });
-  a.click();
-  URL.revokeObjectURL(a.href);
+  a.click(); URL.revokeObjectURL(a.href);
   setStatus('done', 'Saved!');
-}
+};
 
-function copyDebrief() {
+window.copyDebrief = async function () {
   if (!fullDebrief) return;
-  navigator.clipboard.writeText(fullDebrief).then(() => {
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = '✓ Copied';
-    setTimeout(() => btn.textContent = '⎘ Copy', 2000);
-  });
-}
+  await navigator.clipboard.writeText(fullDebrief);
+  const btn = document.getElementById('copyBtn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied';
+  setTimeout(() => btn.textContent = orig, 2000);
+};
 
-// Allow Ctrl+Enter to trigger analysis
+// Ctrl+Enter to analyse
 document.getElementById('transcript').addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') startAnalysis();
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') window.startAnalysis();
+});
+
+// Invalidate cached pipeline if the Whisper model changes
+document.getElementById('whisperModel').addEventListener('change', () => {
+  whisperPipe = null;
+  if (audioFile) {
+    const s = document.getElementById('whisperModel').value.split('/')[1];
+    document.getElementById('whisperBadge').textContent = `${s} · loads on first transcribe`;
+  }
 });
 </script>
 </body>
