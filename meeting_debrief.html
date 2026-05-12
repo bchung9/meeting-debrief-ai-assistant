@@ -37,8 +37,8 @@
   }
 
   .app {
-    display: grid;
-    grid-template-rows: auto auto auto auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     max-width: 1440px;
     margin: 0 auto;
@@ -175,6 +175,7 @@
   /* ── Panels ── */
   .panels {
     display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    flex: 1; min-height: 0;
     overflow: hidden; animation: fadeUp .5s .15s ease both;
   }
   .panel {
