@@ -31,38 +31,24 @@
   }
 
   html, body { height: 100%; background: var(--bg); color: var(--fg); font-family: var(--mono); font-size: 13px; line-height: 1.6; }
-
-  .app { display: flex; flex-direction: column; height: 100vh; max-width: 1440px; margin: 0 auto; padding: 0 28px; }
+  .app { display: flex; flex-direction: column; height: 100vh; max-width: 1600px; margin: 0 auto; padding: 0 24px; }
 
   /* ── Header ── */
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 0 16px; border-bottom: 1px solid var(--border);
-    flex-shrink: 0; animation: fadeDown .5s ease both;
-  }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; animation: fadeDown .5s ease both; }
   .logo { display: flex; align-items: baseline; gap: 12px; }
   .logo h1 { font-family: var(--serif); font-size: 22px; font-weight: 400; }
   .logo .tag { font-size: 11px; color: var(--fg3); letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border: 1px solid var(--border2); border-radius: 99px; }
   .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
   .model-label { font-size: 11px; color: var(--fg3); letter-spacing: .06em; text-transform: uppercase; }
-
   select { background: var(--raised); color: var(--fg); border: 1px solid var(--border2); border-radius: var(--radius); padding: 6px 10px; font-family: var(--mono); font-size: 12.5px; cursor: pointer; outline: none; transition: border-color .2s; }
   select:hover { border-color: var(--accent); }
 
   /* ── Toolbar ── */
-  .toolbar { display: flex; align-items: center; gap: 8px; padding: 12px 0; flex-shrink: 0; animation: fadeDown .5s .08s ease both; flex-wrap: wrap; }
+  .toolbar { display: flex; align-items: center; gap: 7px; padding: 10px 0; flex-shrink: 0; animation: fadeDown .5s .08s ease both; flex-wrap: wrap; }
   .toolbar-sep { width: 1px; height: 20px; background: var(--border2); margin: 0 2px; flex-shrink: 0; }
 
   /* ── Alert banner ── */
-  .alert-banner {
-    display: none;
-    align-items: flex-start; gap: 12px;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    flex-shrink: 0; margin-bottom: 4px;
-    animation: fadeDown .3s ease both;
-    font-size: 12px; line-height: 1.6;
-  }
+  .alert-banner { display: none; align-items: flex-start; gap: 12px; padding: 10px 14px; border-radius: var(--radius); flex-shrink: 0; margin-bottom: 4px; animation: fadeDown .3s ease both; font-size: 12px; line-height: 1.6; }
   .alert-banner.show { display: flex; }
   .alert-banner.warn  { background: var(--warn-dim); border: 1px solid rgba(251,146,60,.3); border-left: 3px solid var(--warn); }
   .alert-banner.error { background: var(--red-dim);  border: 1px solid rgba(241,113,113,.3); border-left: 3px solid var(--red); }
@@ -73,10 +59,7 @@
   .alert-banner.error .alert-title { color: var(--red); }
   .alert-msg    { color: var(--fg2); font-size: 11.5px; }
   .alert-actions { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
-  .alert-btn {
-    padding: 4px 10px; border-radius: 6px; font-family: var(--mono); font-size: 11.5px;
-    cursor: pointer; border: 1px solid; transition: background .15s;
-  }
+  .alert-btn { padding: 4px 10px; border-radius: 6px; font-family: var(--mono); font-size: 11.5px; cursor: pointer; border: 1px solid; transition: background .15s; }
   .alert-btn.primary { background: var(--accent); color: #0c0e14; border-color: var(--accent); font-weight: 500; }
   .alert-btn.primary:hover { background: var(--accent2); }
   .alert-btn.ghost  { background: transparent; color: var(--fg2); border-color: var(--border2); }
@@ -102,7 +85,7 @@
   .wp-fill.indeterminate { width: 35%; animation: sweep 1.1s ease-in-out infinite; }
 
   /* ── Buttons ── */
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); font-family: var(--mono); font-size: 12.5px; cursor: pointer; transition: background .15s, border-color .15s, opacity .15s, transform .1s; border: 1px solid transparent; user-select: none; white-space: nowrap; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-family: var(--mono); font-size: 12px; cursor: pointer; transition: background .15s, border-color .15s, opacity .15s, transform .1s; border: 1px solid transparent; user-select: none; white-space: nowrap; }
   .btn:active { transform: scale(.97); }
   .btn-primary { background: var(--accent); color: #0c0e14; font-weight: 500; border-color: var(--accent); }
   .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
@@ -110,6 +93,7 @@
   .btn-ghost { background: var(--raised); color: var(--fg2); border-color: var(--border2); }
   .btn-ghost:hover { border-color: var(--fg3); color: var(--fg); }
   .btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-ghost.active { color: var(--accent); border-color: rgba(232,168,56,.4); background: rgba(232,168,56,.07); }
   .btn-audio { background: var(--raised); color: var(--blue); border-color: rgba(96,165,250,.4); }
   .btn-audio:hover { background: rgba(96,165,250,.08); border-color: var(--blue); }
   .btn-audio:disabled { opacity: .4; cursor: not-allowed; }
@@ -128,25 +112,72 @@
   .status.error      .dot { background: var(--red); }
 
   /* ── Panels ── */
-  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; min-height: 0; overflow: hidden; animation: fadeUp .5s .15s ease both; }
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; min-height: 0; overflow: hidden; animation: fadeUp .5s .15s ease both; transition: grid-template-columns .25s ease; }
+  .panels.history-open { grid-template-columns: 240px 1fr 1fr; }
+
   .panel { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid var(--border); background: var(--raised); flex-shrink: 0; }
-  .panel-title { font-family: var(--serif); font-size: 14px; font-weight: 400; letter-spacing: .04em; color: var(--fg2); text-transform: uppercase; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); background: var(--raised); flex-shrink: 0; }
+  .panel-title { font-family: var(--serif); font-size: 13px; font-weight: 400; letter-spacing: .04em; color: var(--fg2); text-transform: uppercase; }
   .panel-actions { display: flex; gap: 6px; align-items: center; }
   .token-count { font-size: 10.5px; color: var(--fg3); transition: color .2s; }
   .token-count.warn { color: var(--warn); }
   .token-count.over { color: var(--red); }
 
-  textarea { flex: 1; background: transparent; border: none; outline: none; resize: none; color: var(--fg); font-family: var(--mono); font-size: 13px; line-height: 1.75; padding: 18px; caret-color: var(--accent); }
+  textarea { flex: 1; background: transparent; border: none; outline: none; resize: none; color: var(--fg); font-family: var(--mono); font-size: 13px; line-height: 1.75; padding: 16px; caret-color: var(--accent); }
   textarea::placeholder { color: var(--fg3); }
-  textarea::-webkit-scrollbar { width: 6px; }
+  textarea::-webkit-scrollbar { width: 5px; }
   textarea::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
+  /* ── History sidebar ── */
+  .history-panel { display: none; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .panels.history-open .history-panel { display: flex; }
+
+  .history-search { padding: 8px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .history-search input {
+    width: 100%; background: var(--raised); color: var(--fg);
+    border: 1px solid var(--border2); border-radius: 6px;
+    padding: 5px 9px; font-family: var(--mono); font-size: 12px;
+    outline: none; transition: border-color .2s;
+  }
+  .history-search input:focus { border-color: var(--accent); }
+
+  .history-list { flex: 1; overflow-y: auto; }
+  .history-list::-webkit-scrollbar { width: 4px; }
+  .history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .history-item {
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    cursor: pointer; position: relative;
+    transition: background .15s;
+  }
+  .history-item:hover { background: var(--raised); }
+  .history-item.active { background: rgba(232,168,56,.07); border-left: 2px solid var(--accent); padding-left: 10px; }
+
+  .hi-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; gap: 4px; }
+  .hi-date { font-size: 10px; color: var(--fg3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hi-model { font-size: 9.5px; color: var(--accent); background: rgba(232,168,56,.1); padding: 1px 5px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+  .hi-snippet { font-size: 11px; color: var(--fg2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.5; }
+  .hi-delete {
+    position: absolute; top: 8px; right: 8px;
+    background: none; border: none; color: var(--fg3);
+    cursor: pointer; font-size: 11px; opacity: 0;
+    padding: 2px 4px; border-radius: 4px;
+    transition: opacity .15s, color .15s;
+  }
+  .history-item:hover .hi-delete { opacity: 1; }
+  .hi-delete:hover { color: var(--red); }
+
+  .history-empty { padding: 24px 14px; text-align: center; color: var(--fg3); font-size: 11.5px; line-height: 1.8; }
+  .history-empty .empty-icon { font-size: 20px; margin-bottom: 8px; }
+
+  .history-footer { padding: 7px 10px; border-top: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+  .history-count { font-size: 10.5px; color: var(--fg3); }
+
   /* ── Output ── */
-  #output { flex: 1; overflow-y: auto; padding: 18px; font-size: 13px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
-  #output::-webkit-scrollbar { width: 6px; }
+  #output { flex: 1; overflow-y: auto; padding: 16px; font-size: 13px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+  #output::-webkit-scrollbar { width: 5px; }
   #output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-  #output .md-h2 { font-family: var(--serif); font-size: 16px; color: var(--accent2); display: block; margin: 18px 0 8px; letter-spacing: .03em; }
+  #output .md-h2 { font-family: var(--serif); font-size: 15px; color: var(--accent2); display: block; margin: 18px 0 8px; letter-spacing: .03em; }
   #output .md-h2:first-child { margin-top: 0; }
   #output .md-pipe { color: var(--accent); }
   #output .md-num  { color: var(--accent2); }
@@ -154,11 +185,11 @@
 
   /* ── Progress bar (Ollama) ── */
   .progress-wrap { height: 2px; background: var(--border); flex-shrink: 0; }
-  .progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width .3s; border-radius: 1px; }
+  .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 1px; }
   .progress-bar.indeterminate { width: 40%; animation: sweep 1.2s ease-in-out infinite; }
 
   /* ── Footer ── */
-  footer { padding: 12px 0 16px; font-size: 11px; color: var(--fg3); letter-spacing: .04em; text-align: center; flex-shrink: 0; animation: fadeUp .5s .25s ease both; }
+  footer { padding: 10px 0 14px; font-size: 11px; color: var(--fg3); letter-spacing: .04em; text-align: center; flex-shrink: 0; animation: fadeUp .5s .25s ease both; }
   footer a { color: var(--fg3); text-decoration: none; }
   footer a:hover { color: var(--fg2); }
 
@@ -168,7 +199,10 @@
   @keyframes pulse     { 0%,100%{opacity:1}50%{opacity:.25} }
   @keyframes sweep     { 0%{transform:translateX(-100%)}100%{transform:translateX(350%)} }
 
-  @media (max-width: 768px) { .panels { grid-template-columns: 1fr; } .app { padding: 0 14px; } }
+  @media (max-width: 900px) {
+    .panels, .panels.history-open { grid-template-columns: 1fr; }
+    .history-panel { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -191,9 +225,9 @@
       </select>
       <span class="model-label" style="margin-left:6px">Whisper</span>
       <select id="whisperModel">
-        <option value="Xenova/whisper-tiny.en">tiny.en · ~75 MB · fastest</option>
-        <option value="Xenova/whisper-base.en" selected>base.en · ~145 MB · balanced</option>
-        <option value="Xenova/whisper-small.en">small.en · ~470 MB · best quality</option>
+        <option value="Xenova/whisper-tiny.en">tiny.en · ~75 MB</option>
+        <option value="Xenova/whisper-base.en" selected>base.en · ~145 MB</option>
+        <option value="Xenova/whisper-small.en">small.en · ~470 MB</option>
       </select>
     </div>
   </header>
@@ -204,11 +238,13 @@
     <button class="btn btn-stop"    id="stopBtn"       onclick="stopAnalysis()" style="display:none">◼ &nbsp;Stop</button>
     <div class="toolbar-sep"></div>
     <button class="btn btn-ghost"                      onclick="loadTextFile()">📂 &nbsp;Load .txt</button>
-    <button class="btn btn-audio"                      onclick="loadAudioFile()">🎙 &nbsp;Upload Audio</button>
+    <button class="btn btn-audio"                      onclick="loadAudioFile()">🎙 &nbsp;Audio</button>
     <button class="btn btn-audio"   id="transcribeBtn" onclick="transcribeAudio()" style="display:none">⟳ &nbsp;Transcribe</button>
     <div class="toolbar-sep"></div>
-    <button class="btn btn-ghost"   id="saveBtn"       onclick="saveDebrief()" disabled>💾 &nbsp;Save Markdown</button>
-    <button class="btn btn-ghost"                      onclick="clearAll()">✕ &nbsp;Clear all</button>
+    <button class="btn btn-ghost"   id="saveBtn"       onclick="saveDebrief()" disabled>💾 &nbsp;Save .md</button>
+    <button class="btn btn-ghost"                      onclick="clearAll()">✕ &nbsp;Clear</button>
+    <div class="toolbar-sep"></div>
+    <button class="btn btn-ghost"   id="historyBtn"    onclick="toggleHistory()">📋 &nbsp;History</button>
     <span class="status" id="status">
       <span class="dot"></span>
       Ready — paste a transcript, load a file, or upload audio
@@ -219,11 +255,11 @@
   <div class="alert-banner" id="alertBanner">
     <span class="alert-icon" id="alertIcon">⚠</span>
     <div class="alert-body">
-      <div class="alert-title" id="alertTitle"></div>
-      <div class="alert-msg"   id="alertMsg"></div>
+      <div class="alert-title"   id="alertTitle"></div>
+      <div class="alert-msg"     id="alertMsg"></div>
       <div class="alert-actions" id="alertActions"></div>
     </div>
-    <button class="alert-dismiss" onclick="dismissAlert()" title="Dismiss">×</button>
+    <button class="alert-dismiss" onclick="dismissAlert()">×</button>
   </div>
 
   <!-- Audio player bar -->
@@ -235,7 +271,7 @@
     <button class="icon-btn" onclick="clearAudio()">✕</button>
   </div>
 
-  <!-- Whisper transcription progress -->
+  <!-- Whisper progress -->
   <div class="whisper-progress" id="whisperProgress">
     <div class="wp-header">
       <span class="wp-label" id="wpLabel">Initialising Whisper…</span>
@@ -245,7 +281,24 @@
   </div>
 
   <!-- Panels -->
-  <div class="panels">
+  <div class="panels" id="panels">
+
+    <!-- History sidebar (hidden until toggled) -->
+    <div class="history-panel panel" id="historyPanel">
+      <div class="panel-header">
+        <span class="panel-title">History</span>
+        <button class="icon-btn" onclick="clearHistorySearch()" id="clearSearchBtn" style="display:none">✕ Clear</button>
+      </div>
+      <div class="history-search">
+        <input type="text" id="historySearch" placeholder="Search transcripts & debriefs…" oninput="onHistorySearch(this.value)" />
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="history-empty"><div class="empty-icon">📭</div>No history yet.</div>
+      </div>
+      <div class="history-footer">
+        <span class="history-count" id="historyCount"></span>
+      </div>
+    </div>
 
     <!-- Transcript -->
     <div class="panel">
@@ -257,7 +310,7 @@
         </div>
       </div>
       <textarea id="transcript"
-        placeholder="Paste your meeting transcript here…&#10;&#10;Or upload an audio file and click ⟳ Transcribe to auto-generate it.&#10;&#10;Tip: Ctrl+Enter to analyse.">
+        placeholder="Paste your meeting transcript here…&#10;&#10;Or upload an audio file and click ⟳ Transcribe.&#10;&#10;Ctrl+Enter to analyse.">
       </textarea>
     </div>
 
@@ -281,6 +334,7 @@
   <footer>
     LLM via <a href="https://ollama.com" target="_blank">Ollama</a> &nbsp;·&nbsp;
     Speech-to-text via <a href="https://huggingface.co/Xenova" target="_blank">Whisper (Transformers.js)</a> &nbsp;·&nbsp;
+    History stored locally in SQLite &nbsp;·&nbsp;
     No data leaves your machine
   </footer>
 
@@ -295,32 +349,18 @@ env.allowLocalModels = false;
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const OLLAMA_URL = 'http://localhost:11434/api/chat';
+const OLLAMA_URL        = 'http://localhost:11434/api/chat';
 const OLLAMA_HEALTH_URL = 'http://localhost:11434/api/tags';
+const API               = '';   // same origin — relative URLs
 
-// Context window limits per model (in tokens)
-const CONTEXT_LIMITS = {
-  'llama3.2': 128000,
-  'llama3.1': 128000,
-  'gemma3':   128000,
-  'mistral':   32000,
-  'phi4':      16000,
-};
-
-// Warn at 80% of context limit, hard-warn at 95%
+const CONTEXT_LIMITS = { 'llama3.2': 128000, 'llama3.1': 128000, 'gemma3': 128000, 'mistral': 32000, 'phi4': 16000 };
 const WARN_THRESHOLD = 0.80;
 const HARD_THRESHOLD = 0.95;
-
-// Audio guards
 const MAX_AUDIO_SIZE_MB  = 500;
-const WARN_AUDIO_MINS    = 60;   // warn but allow
-const MAX_AUDIO_MINS     = 180;  // block with confirmation
-
-// Stream timeout — if no tokens arrive within this window, surface an error
+const WARN_AUDIO_MINS    = 60;
+const MAX_AUDIO_MINS     = 180;
 const STREAM_TIMEOUT_MS  = 30000;
-
-// Max auto-retries on stream failure
-const MAX_RETRIES = 2;
+const MAX_RETRIES        = 2;
 
 const SYSTEM_PROMPT = `You are an expert meeting analyst. When given a meeting transcript,
 you produce a concise, well-structured debrief in Markdown. Always respond with ONLY
@@ -350,17 +390,154 @@ let audioFile        = null;
 let isTranscribing   = false;
 let streamTimeoutId  = null;
 let retryCount       = 0;
+let activeDebriefId  = null;
+let historyOpen      = false;
+let historySearchTimer = null;
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Load history in background — non-critical, silently ignored if API not up
+  loadHistory();
+});
+
+// ── History: toggle ───────────────────────────────────────────────────────────
+
+window.toggleHistory = function() {
+  historyOpen = !historyOpen;
+  document.getElementById('panels').classList.toggle('history-open', historyOpen);
+  document.getElementById('historyBtn').classList.toggle('active', historyOpen);
+  if (historyOpen) loadHistory();
+};
+
+// ── History: load ─────────────────────────────────────────────────────────────
+
+async function loadHistory(q = '') {
+  try {
+    const url = q
+      ? `${API}/api/search?q=${encodeURIComponent(q)}&limit=100`
+      : `${API}/api/debriefs?limit=100`;
+    const items = await fetch(url).then(r => r.ok ? r.json() : []);
+    renderHistoryList(items, !!q);
+  } catch {
+    // API not reachable (e.g. file:// or no launcher) — silently ignore
+  }
+}
+
+function renderHistoryList(items, isSearch) {
+  const el    = document.getElementById('historyList');
+  const count = document.getElementById('historyCount');
+
+  count.textContent = items.length
+    ? `${items.length} debrief${items.length !== 1 ? 's' : ''}`
+    : '';
+
+  if (!items.length) {
+    el.innerHTML = `<div class="history-empty">
+      <div class="empty-icon">${isSearch ? '🔍' : '📭'}</div>
+      ${isSearch ? 'No results found.' : 'No history yet.<br>Analyse a transcript to get started.'}
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = items.map(item => `
+    <div class="history-item ${item.id === activeDebriefId ? 'active' : ''}"
+         data-id="${item.id}" onclick="loadDebrief(${item.id})">
+      <div class="hi-top">
+        <span class="hi-date">${fmtDate(item.created_at)}</span>
+        <span class="hi-model">${esc(item.model)}</span>
+      </div>
+      <div class="hi-snippet">${esc(item.snippet || '')}</div>
+      <button class="hi-delete" onclick="deleteDebrief(event, ${item.id})" title="Delete">✕</button>
+    </div>
+  `).join('');
+}
+
+// ── History: load debrief ─────────────────────────────────────────────────────
+
+window.loadDebrief = async function(id) {
+  try {
+    const d = await fetch(`${API}/api/debriefs/${id}`).then(r => r.json());
+    document.getElementById('transcript').value = d.transcript;
+    fullDebrief    = d.debrief;
+    activeDebriefId = id;
+    renderMarkdown(d.debrief);
+    updateTokenCount();
+    document.getElementById('saveBtn').disabled = false;
+    document.getElementById('copyBtn').disabled = false;
+    setStatus('done', `Loaded debrief from ${fmtDate(d.created_at)}`);
+    // Update active highlight without full re-render
+    document.querySelectorAll('.history-item').forEach(el => {
+      el.classList.toggle('active', Number(el.dataset.id) === id);
+    });
+  } catch {
+    showAlert('error', 'Could not load debrief', 'Failed to retrieve this debrief from the database.', []);
+  }
+};
+
+// ── History: delete ───────────────────────────────────────────────────────────
+
+window.deleteDebrief = async function(e, id) {
+  e.stopPropagation();
+  try {
+    await fetch(`${API}/api/debriefs/${id}`, { method: 'DELETE' });
+    if (activeDebriefId === id) {
+      activeDebriefId = null;
+      clearOutput();
+    }
+    loadHistory(document.getElementById('historySearch').value.trim());
+  } catch {
+    showAlert('error', 'Delete failed', 'Could not delete this debrief.', []);
+  }
+};
+
+// ── History: search ───────────────────────────────────────────────────────────
+
+window.onHistorySearch = function(val) {
+  clearTimeout(historySearchTimer);
+  const clearBtn = document.getElementById('clearSearchBtn');
+  clearBtn.style.display = val ? 'inline-flex' : 'none';
+  historySearchTimer = setTimeout(() => loadHistory(val.trim()), 300);
+};
+
+window.clearHistorySearch = function() {
+  document.getElementById('historySearch').value = '';
+  document.getElementById('clearSearchBtn').style.display = 'none';
+  loadHistory();
+};
+
+// ── History: save ─────────────────────────────────────────────────────────────
+
+async function saveToHistory(transcript, model) {
+  try {
+    const res = await fetch(`${API}/api/debriefs`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        transcript,
+        debrief:     fullDebrief,
+        token_count: estimateTokens(transcript),
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      activeDebriefId = data.id;
+      if (historyOpen) loadHistory(document.getElementById('historySearch').value.trim());
+    }
+  } catch {
+    // History save is non-critical — silently ignore failures
+  }
+}
 
 // ── Token estimation ──────────────────────────────────────────────────────────
 
 function estimateTokens(text) {
-  // ~1.4 tokens per word is a safe overestimate for meeting transcripts
   return Math.round(text.trim().split(/\s+/).filter(Boolean).length * 1.4);
 }
 
 function getContextLimit() {
-  const model = document.getElementById('modelSelect').value;
-  return CONTEXT_LIMITS[model] ?? 32000;
+  return CONTEXT_LIMITS[document.getElementById('modelSelect').value] ?? 32000;
 }
 
 function updateTokenCount() {
@@ -369,200 +546,119 @@ function updateTokenCount() {
   const limit  = getContextLimit();
   const ratio  = tokens / limit;
   const el     = document.getElementById('tokenCount');
-
   if (!text.trim()) { el.textContent = ''; el.className = 'token-count'; return; }
-
   el.textContent = `~${tokens.toLocaleString()} tokens`;
-
   if (ratio >= HARD_THRESHOLD) {
     el.className = 'token-count over';
-    showAlert('error', 'Transcript too long', `~${tokens.toLocaleString()} tokens exceeds ${Math.round(ratio*100)}% of ${document.getElementById('modelSelect').value}'s ${(limit/1000).toFixed(0)}k context window. The output will be cut off. Shorten the transcript or switch to llama3.2 (128k context).`, []);
+    showAlert('error', 'Transcript too long',
+      `~${tokens.toLocaleString()} tokens is ${Math.round(ratio*100)}% of ${document.getElementById('modelSelect').value}'s context window. Output will likely be cut off.`, [
+        { label: 'Switch to llama3.2', action: () => { document.getElementById('modelSelect').value = 'llama3.2'; onModelChange(); dismissAlert(); } },
+      ]);
   } else if (ratio >= WARN_THRESHOLD) {
     el.className = 'token-count warn';
-    showAlert('warn', 'Transcript is long', `~${tokens.toLocaleString()} tokens uses ${Math.round(ratio*100)}% of ${document.getElementById('modelSelect').value}'s context window. Analysis may be truncated.`, [
-      { label: 'Switch to llama3.2', action: () => { document.getElementById('modelSelect').value = 'llama3.2'; onModelChange(); dismissAlert(); } },
-    ]);
   } else {
     el.className = 'token-count';
-    if (document.getElementById('alertTitle').textContent.includes('long') ||
-        document.getElementById('alertTitle').textContent.includes('long')) {
-      dismissAlert();
-    }
   }
 }
 
-window.onModelChange = function() {
-  updateTokenCount(); // re-check against new model's limit
-};
+window.onModelChange = function() { updateTokenCount(); };
 
-// ── Ollama: health check ──────────────────────────────────────────────────────
+// ── Ollama health check ───────────────────────────────────────────────────────
 
 async function checkOllamaHealth() {
   try {
     const res = await fetch(OLLAMA_HEALTH_URL, { signal: AbortSignal.timeout(3000) });
-    if (!res.ok) return { ok: false, reason: `Ollama responded with status ${res.status}` };
+    if (!res.ok) return { ok: false, reason: `status ${res.status}` };
     const data = await res.json();
     return { ok: true, models: data.models ?? [] };
   } catch (e) {
-    if (e.name === 'TimeoutError') return { ok: false, reason: 'timeout' };
-    return { ok: false, reason: 'unreachable' };
+    return { ok: false, reason: e.name === 'TimeoutError' ? 'timeout' : 'unreachable' };
   }
 }
-
-function ollamaErrorMessage(health, selectedModel) {
-  if (health.reason === 'unreachable' || health.reason === 'timeout') {
-    return {
-      title: 'Ollama is not running',
-      msg:   'The launcher may have stopped. Re-run launch.py (or launch.sh / launch.bat) and try again.',
-      actions: [],
-    };
-  }
-  const modelInstalled = health.models?.some(m => m.name?.includes(selectedModel));
-  if (!modelInstalled) {
-    return {
-      title: `Model '${selectedModel}' not found`,
-      msg:   `Pull it in a terminal: ollama pull ${selectedModel} — or choose a model that's already installed.`,
-      actions: [],
-    };
-  }
-  return null;
-}
-
-// ── Friendly stream-error messages ───────────────────────────────────────────
 
 function friendlyStreamError(err, partialLength) {
-  if (err.name === 'AbortError') return null; // user-initiated — no message needed
-
+  if (err.name === 'AbortError') return null;
   if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
-    return {
-      title: 'Connection to Ollama lost',
-      msg: partialLength > 0
-        ? `Lost connection after generating ${partialLength} characters. The model may have crashed or Ollama was stopped.`
-        : 'Could not reach Ollama. Make sure it\'s still running.',
-      retryable: true,
-      keepPartial: partialLength > 100,
-    };
+    return { title: 'Connection to Ollama lost', msg: partialLength > 0 ? `Lost connection after ${partialLength} characters. Ollama may have crashed.` : "Can't reach Ollama — check it's still running.", retryable: true, keepPartial: partialLength > 100 };
   }
-
   if (err.message?.includes('context') || err.message?.includes('length')) {
-    return {
-      title: 'Context window exceeded',
-      msg: 'The transcript is too long for this model to process. Try a shorter transcript or switch to llama3.2 (128k context).',
-      retryable: false,
-      keepPartial: false,
-    };
+    return { title: 'Context window exceeded', msg: 'Transcript is too long. Try a shorter transcript or switch to llama3.2 (128k context).', retryable: false, keepPartial: false };
   }
-
-  return {
-    title: 'Analysis failed',
-    msg: err.message || 'An unexpected error occurred.',
-    retryable: true,
-    keepPartial: partialLength > 100,
-  };
+  return { title: 'Analysis failed', msg: err.message || 'An unexpected error occurred.', retryable: true, keepPartial: partialLength > 100 };
 }
 
 // ── Analysis ──────────────────────────────────────────────────────────────────
 
-window.startAnalysis = async function (isRetry = false) {
+window.startAnalysis = async function(isRetry = false) {
   const transcript = document.getElementById('transcript').value.trim();
   if (!transcript) { showAlert('warn', 'No transcript', 'Paste or load a transcript first.', []); return; }
-
   if (!isRetry) retryCount = 0;
   dismissAlert();
 
-  // ── Pre-flight: check Ollama is reachable ──
   setStatus('active', 'Checking Ollama…');
   const health = await checkOllamaHealth();
   if (!health.ok) {
-    const errInfo = ollamaErrorMessage(health, document.getElementById('modelSelect').value);
-    showAlert('error', errInfo.title, errInfo.msg, []);
-    setStatus('error', errInfo.title);
+    showAlert('error', 'Ollama is not running', 'The launcher may have stopped. Re-run launch.py and try again.', []);
+    setStatus('error', 'Ollama not running');
     return;
   }
 
-  // ── Pre-flight: check selected model is installed ──
-  const selectedModel  = document.getElementById('modelSelect').value;
-  const modelInstalled = health.models?.some(m => m.name?.includes(selectedModel));
+  const model = document.getElementById('modelSelect').value;
+  const modelInstalled = health.models?.some(m => m.name?.includes(model));
   if (!modelInstalled) {
-    const errInfo = ollamaErrorMessage({ ...health, models: [] }, selectedModel);
-    showAlert('error', errInfo.title, errInfo.msg, []);
-    setStatus('error', errInfo.title);
+    showAlert('error', `Model '${model}' not found`, `Pull it first: ollama pull ${model}`, []);
+    setStatus('error', 'Model not found');
     return;
   }
 
-  // ── Pre-flight: token count soft-check ──
   const tokens = estimateTokens(transcript);
   const limit  = getContextLimit();
   if (tokens / limit >= HARD_THRESHOLD) {
-    showAlert('error', 'Transcript too long', `~${tokens.toLocaleString()} tokens likely exceeds this model's context window. Output will be cut off.`, [
-      { label: 'Analyse anyway', action: () => { dismissAlert(); _doAnalysis(transcript, selectedModel); } },
-      { label: 'Cancel', action: dismissAlert },
-    ]);
+    showAlert('error', 'Transcript too long',
+      `~${tokens.toLocaleString()} tokens may exceed this model's context window.`, [
+        { label: 'Analyse anyway', action: () => { dismissAlert(); _doAnalysis(transcript, model); } },
+        { label: 'Cancel', action: dismissAlert },
+      ]);
     return;
   }
 
-  _doAnalysis(transcript, selectedModel);
+  _doAnalysis(transcript, model);
 };
 
 async function _doAnalysis(transcript, model) {
   setBusy(true);
-  if (retryCount === 0) {
-    clearOutput();
-    fullDebrief = '';
-  }
+  if (retryCount === 0) { clearOutput(); fullDebrief = ''; }
   ollamaController = new AbortController();
 
-  // ── Stream timeout watchdog ──
   const armTimeout = () => {
     clearTimeout(streamTimeoutId);
     streamTimeoutId = setTimeout(() => {
       ollamaController?.abort();
-      const info = {
-        title: 'Model is not responding',
-        msg: `No tokens received for ${STREAM_TIMEOUT_MS / 1000}s. Ollama may be overloaded, or the model may be stuck. Try again or restart Ollama.`,
-        retryable: true,
-        keepPartial: fullDebrief.length > 100,
-      };
-      handleStreamError(new Error('timeout'), info);
+      handleStreamError(new Error('timeout'), {
+        title: 'Model not responding',
+        msg: `No tokens for ${STREAM_TIMEOUT_MS/1000}s. Ollama may be overloaded. Try a smaller model or restart Ollama.`,
+        retryable: true, keepPartial: fullDebrief.length > 100,
+      });
     }, STREAM_TIMEOUT_MS);
   };
-
-  armTimeout(); // start watchdog immediately
+  armTimeout();
 
   try {
     const res = await fetch(OLLAMA_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal:  ollamaController.signal,
-      body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user',   content: `Here is the meeting transcript:\n\n${transcript}` },
-        ],
-        stream: true,
-      }),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      signal: ollamaController.signal,
+      body: JSON.stringify({ model, messages: [{ role: 'system', content: SYSTEM_PROMPT }, { role: 'user', content: `Here is the meeting transcript:\n\n${transcript}` }], stream: true }),
     });
+    if (!res.ok) { clearTimeout(streamTimeoutId); throw new Error(`Ollama HTTP ${res.status}`); }
 
-    if (!res.ok) {
-      clearTimeout(streamTimeoutId);
-      throw new Error(`Ollama returned HTTP ${res.status}`);
-    }
-
-    const reader  = res.body.getReader();
-    const decoder = new TextDecoder();
-
+    const reader = res.body.getReader(), decoder = new TextDecoder();
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       for (const line of decoder.decode(value).split('\n').filter(Boolean)) {
         try {
           const token = JSON.parse(line)?.message?.content ?? '';
-          if (token) {
-            armTimeout(); // reset watchdog on each token
-            fullDebrief += token;
-            renderMarkdown(fullDebrief);
-          }
+          if (token) { armTimeout(); fullDebrief += token; renderMarkdown(fullDebrief); }
         } catch {}
       }
     }
@@ -570,18 +666,20 @@ async function _doAnalysis(transcript, model) {
     clearTimeout(streamTimeoutId);
     setBusy(false);
     retryCount = 0;
-    setStatus('done', `Done · ${new Date().toLocaleTimeString()}`);
     document.getElementById('saveBtn').disabled = false;
     document.getElementById('copyBtn').disabled = false;
+    setStatus('done', `Done · ${new Date().toLocaleTimeString()}`);
+
+    // Auto-save to history
+    await saveToHistory(transcript, model);
 
   } catch (err) {
     clearTimeout(streamTimeoutId);
     if (err.name === 'AbortError' && !streamTimeoutId) {
-      // User clicked Stop
       setBusy(false);
       setStatus('', 'Stopped.');
       if (fullDebrief.length > 100) {
-        showAlert('warn', 'Partial debrief', 'Generation was stopped early. You can save what was generated so far.', [
+        showAlert('warn', 'Partial debrief', 'Generation stopped early. You can save what was generated.', [
           { label: '💾 Save partial', action: saveDebrief },
         ]);
       }
@@ -592,292 +690,163 @@ async function _doAnalysis(transcript, model) {
 }
 
 function handleStreamError(err, info) {
-  if (!info) return; // user-aborted, already handled
+  if (!info) return;
   setBusy(false);
   setStatus('error', info.title);
-
   const actions = [];
-
   if (info.retryable && retryCount < MAX_RETRIES) {
-    actions.push({
-      label: retryCount === 0 ? '↺ Retry' : `↺ Retry (${retryCount + 1}/${MAX_RETRIES})`,
-      action: () => {
-        retryCount++;
-        dismissAlert();
-        window.startAnalysis(true);
-      },
-      primary: true,
-    });
+    actions.push({ label: `↺ Retry (${retryCount + 1}/${MAX_RETRIES})`, primary: true,
+      action: () => { retryCount++; dismissAlert(); window.startAnalysis(true); } });
   }
-
   if (info.keepPartial) {
-    actions.push({
-      label: '💾 Save partial debrief',
-      action: () => {
-        document.getElementById('saveBtn').disabled = false;
-        saveDebrief();
-      },
-    });
+    actions.push({ label: '💾 Save partial', action: () => { document.getElementById('saveBtn').disabled = false; saveDebrief(); } });
     actions.push({ label: 'Discard', action: () => { dismissAlert(); clearOutput(); } });
   }
-
   showAlert('error', info.title, info.msg, actions);
 }
 
-window.stopAnalysis = function () {
-  clearTimeout(streamTimeoutId);
-  ollamaController?.abort();
-};
+window.stopAnalysis = function() { clearTimeout(streamTimeoutId); ollamaController?.abort(); };
 
-// ── Audio: load ───────────────────────────────────────────────────────────────
+// ── Audio ─────────────────────────────────────────────────────────────────────
 
 window.loadAudioFile   = () => document.getElementById('audioFileInput').click();
-
-window.handleAudioFile = function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  // ── File size guard ──
+window.handleAudioFile = function(e) {
+  const file = e.target.files[0]; if (!file) return;
   const sizeMB = file.size / (1024 * 1024);
   if (sizeMB > MAX_AUDIO_SIZE_MB) {
-    showAlert('error', 'File too large',
-      `${file.name} is ${Math.round(sizeMB)} MB. Maximum supported size is ${MAX_AUDIO_SIZE_MB} MB. Try compressing or trimming the audio.`, []);
-    e.target.value = '';
-    return;
+    showAlert('error', 'File too large', `${file.name} is ${Math.round(sizeMB)} MB. Max supported size is ${MAX_AUDIO_SIZE_MB} MB.`, []);
+    e.target.value = ''; return;
   }
-
   audioFile = file;
-  const url = URL.createObjectURL(file);
   const player = document.getElementById('audioPlayer');
-  player.src = url;
+  player.src = URL.createObjectURL(file);
   document.getElementById('audioFilename').textContent = file.name;
   document.getElementById('audioBar').classList.add('visible');
   document.getElementById('transcribeBtn').style.display = 'inline-flex';
-
-  const modelShort = document.getElementById('whisperModel').value.split('/')[1];
-  document.getElementById('whisperBadge').textContent =
-    whisperPipe ? `✓ ${modelShort} ready` : `${modelShort} · loads on first transcribe`;
-
-  // ── Duration guard (once metadata loads) ──
+  const ms = document.getElementById('whisperModel').value.split('/')[1];
+  document.getElementById('whisperBadge').textContent = whisperPipe ? `✓ ${ms} ready` : `${ms} · loads on first transcribe`;
   player.onloadedmetadata = () => {
-    const totalSecs = Math.round(player.duration);
-    const mins      = Math.floor(totalSecs / 60);
-    const secs      = totalSecs % 60;
-    document.getElementById('audioDuration').textContent =
-      `${mins}:${String(secs).padStart(2, '0')}`;
-
-    const totalMins = totalSecs / 60;
-
-    if (totalMins > MAX_AUDIO_MINS) {
-      showAlert('error', 'Audio very long',
-        `This file is ${Math.round(totalMins)} minutes long. Transcribing more than ${MAX_AUDIO_MINS} minutes may run out of memory or take a very long time.`, [
-          { label: 'Transcribe anyway', action: () => { dismissAlert(); transcribeAudio(); }, primary: true },
-          { label: 'Cancel', action: () => { dismissAlert(); clearAudio(); } },
-        ]);
-    } else if (totalMins > WARN_AUDIO_MINS) {
-      showAlert('warn', 'Long audio file',
-        `${Math.round(totalMins)} minutes of audio will take a few minutes to transcribe. Make sure your machine won't sleep during processing.`, [
-          { label: 'Got it', action: dismissAlert },
-        ]);
+    const s = Math.round(player.duration), m = Math.floor(s/60);
+    document.getElementById('audioDuration').textContent = `${m}:${String(s%60).padStart(2,'0')}`;
+    const mins = s / 60;
+    if (mins > MAX_AUDIO_MINS) {
+      showAlert('error', 'Audio very long', `${Math.round(mins)} minutes may run out of memory. Proceed with caution.`, [
+        { label: 'Transcribe anyway', primary: true, action: () => { dismissAlert(); transcribeAudio(); } },
+        { label: 'Cancel', action: () => { dismissAlert(); clearAudio(); } },
+      ]);
+    } else if (mins > WARN_AUDIO_MINS) {
+      showAlert('warn', 'Long audio file', `${Math.round(mins)} minutes will take a while. Make sure your machine won't sleep.`, [
+        { label: 'Got it', action: dismissAlert },
+      ]);
     }
   };
-
   setStatus('', `Audio loaded: ${file.name} — click ⟳ Transcribe`);
   e.target.value = '';
 };
 
-window.clearAudio = function () {
+window.clearAudio = function() {
   audioFile = null;
   document.getElementById('audioPlayer').src = '';
   document.getElementById('audioDuration').textContent = '';
   document.getElementById('audioBar').classList.remove('visible');
   document.getElementById('transcribeBtn').style.display = 'none';
-  setStatus('', 'Audio cleared.');
 };
 
-// ── Audio: transcribe ─────────────────────────────────────────────────────────
-
-window.transcribeAudio = async function () {
+window.transcribeAudio = async function() {
   if (!audioFile || isTranscribing) return;
   isTranscribing = true;
+  const modelId = document.getElementById('whisperModel').value;
+  const ms = modelId.split('/')[1];
+  const progressEl = document.getElementById('whisperProgress'), fillEl = document.getElementById('wpFill'),
+        labelEl = document.getElementById('wpLabel'), pctEl = document.getElementById('wpPct'),
+        badge = document.getElementById('whisperBadge'), tb = document.getElementById('transcribeBtn');
+  tb.disabled = true; progressEl.classList.add('visible'); dismissAlert();
 
-  const modelId    = document.getElementById('whisperModel').value;
-  const modelShort = modelId.split('/')[1];
-  const progressEl    = document.getElementById('whisperProgress');
-  const fillEl        = document.getElementById('wpFill');
-  const labelEl       = document.getElementById('wpLabel');
-  const pctEl         = document.getElementById('wpPct');
-  const badge         = document.getElementById('whisperBadge');
-  const transcribeBtn = document.getElementById('transcribeBtn');
-
-  transcribeBtn.disabled = true;
-  progressEl.classList.add('visible');
-  dismissAlert();
-
-  // ── Load Whisper model ──
   if (!whisperPipe) {
-    labelEl.textContent = `Downloading ${modelShort} — first run only, cached after this…`;
-    fillEl.classList.add('indeterminate');
-    pctEl.textContent   = '';
-    setStatus('transcribe', `Downloading ${modelShort}…`);
-
+    labelEl.textContent = `Downloading ${ms} — cached after first use…`;
+    fillEl.classList.add('indeterminate'); pctEl.textContent = '';
+    setStatus('transcribe', `Downloading ${ms}…`);
     try {
       whisperPipe = await pipeline('automatic-speech-recognition', modelId, {
         progress_callback: ({ status, file: f, loaded, total }) => {
           if (status === 'downloading') {
-            const pct = total ? Math.round((loaded / total) * 100) : 0;
-            fillEl.classList.remove('indeterminate');
-            fillEl.style.width  = pct + '%';
-            labelEl.textContent = `Downloading ${f ?? modelShort}…`;
-            pctEl.textContent   = pct + '%';
+            const pct = total ? Math.round((loaded/total)*100) : 0;
+            fillEl.classList.remove('indeterminate'); fillEl.style.width = pct+'%';
+            labelEl.textContent = `Downloading ${f ?? ms}…`; pctEl.textContent = pct+'%';
           }
-          if (status === 'loading') {
-            fillEl.style.width  = '95%';
-            labelEl.textContent = 'Loading model into memory…';
-            pctEl.textContent   = '95%';
-          }
+          if (status === 'loading') { fillEl.style.width = '95%'; labelEl.textContent = 'Loading into memory…'; pctEl.textContent = '95%'; }
         },
       });
     } catch (err) {
-      progressEl.classList.remove('visible');
-      isTranscribing = false;
-      transcribeBtn.disabled = false;
-      whisperPipe = null; // allow retry with fresh pipeline
-      showAlert('error', 'Failed to load Whisper',
-        `Could not download or initialise the ${modelShort} model. Check your internet connection and try again. (${err.message})`, [
-          { label: '↺ Retry', action: () => { dismissAlert(); transcribeAudio(); }, primary: true },
-          { label: 'Try smaller model', action: () => {
-            document.getElementById('whisperModel').value = 'Xenova/whisper-tiny.en';
-            whisperPipe = null;
-            dismissAlert();
-            transcribeAudio();
-          }},
-        ]);
-      setStatus('error', 'Whisper model failed to load');
+      progressEl.classList.remove('visible'); isTranscribing = false; tb.disabled = false; whisperPipe = null;
+      showAlert('error', 'Whisper load failed', `${err.message}`, [
+        { label: '↺ Retry', primary: true, action: () => { dismissAlert(); transcribeAudio(); } },
+        { label: 'Try tiny.en', action: () => { document.getElementById('whisperModel').value = 'Xenova/whisper-tiny.en'; whisperPipe = null; dismissAlert(); transcribeAudio(); } },
+      ]);
       return;
     }
   }
-
-  badge.textContent = `✓ ${modelShort} loaded`;
-
-  // ── Decode audio ──
-  fillEl.classList.remove('indeterminate');
-  fillEl.style.width  = '100%';
-  labelEl.textContent = 'Decoding audio…';
-  pctEl.textContent   = '';
+  badge.textContent = `✓ ${ms}`;
+  fillEl.classList.remove('indeterminate'); fillEl.style.width = '100%'; labelEl.textContent = 'Decoding audio…'; pctEl.textContent = '';
   setStatus('transcribe', 'Decoding audio…');
-
   let audioData;
   try {
-    const arrayBuf = await audioFile.arrayBuffer();
-    const audioCtx = new AudioContext({ sampleRate: 16000 });
-    const decoded  = await audioCtx.decodeAudioData(arrayBuf);
-    audioData      = decoded.getChannelData(0);
-    await audioCtx.close();
+    const buf = await audioFile.arrayBuffer();
+    const actx = new AudioContext({ sampleRate: 16000 });
+    const dec = await actx.decodeAudioData(buf);
+    audioData = dec.getChannelData(0); await actx.close();
   } catch (err) {
-    progressEl.classList.remove('visible');
-    isTranscribing = false;
-    transcribeBtn.disabled = false;
-
-    const isFormatError = err.message?.toLowerCase().includes('decode') ||
-                          err.message?.toLowerCase().includes('format');
-    showAlert('error', 'Could not read audio file',
-      isFormatError
-        ? `The file format may not be supported by your browser. Try converting it to .mp3 or .wav first. (${err.message})`
-        : `Audio decoding failed: ${err.message}`, []);
-    setStatus('error', 'Audio decode failed');
+    progressEl.classList.remove('visible'); isTranscribing = false; tb.disabled = false;
+    showAlert('error', 'Audio decode failed',
+      err.message?.toLowerCase().includes('decode')
+        ? 'Unsupported format — try converting to .mp3 or .wav first.'
+        : err.message, []);
     return;
   }
-
-  // ── Transcribe ──
-  const durationSec = Math.round(audioData.length / 16000);
-  fillEl.classList.add('indeterminate');
-  labelEl.textContent = `Transcribing ${durationSec}s of audio…`;
-  pctEl.textContent   = '';
-  setStatus('transcribe', `Transcribing ${durationSec}s with ${modelShort}…`);
-
+  const dur = Math.round(audioData.length / 16000);
+  fillEl.classList.add('indeterminate'); labelEl.textContent = `Transcribing ${dur}s…`; pctEl.textContent = '';
+  setStatus('transcribe', `Transcribing ${dur}s with ${ms}…`);
   try {
-    const result = await whisperPipe(audioData, {
-      chunk_length_s:    30,
-      stride_length_s:   5,
-      language:          'english',
-      task:              'transcribe',
-      return_timestamps: false,
-    });
-
+    const result = await whisperPipe(audioData, { chunk_length_s: 30, stride_length_s: 5, language: 'english', task: 'transcribe', return_timestamps: false });
     const text = (result.text ?? '').trim();
-
-    if (!text) {
-      throw new Error('Whisper returned an empty transcript. The audio may be silent or contain only background noise.');
-    }
-
+    if (!text) throw new Error('Whisper returned an empty transcript. Audio may be silent or noise-only.');
     document.getElementById('transcript').value = text;
     updateTokenCount();
-    progressEl.classList.remove('visible');
-    isTranscribing = false;
-    transcribeBtn.disabled = false;
-    setStatus('done', `✓ Transcribed ${durationSec}s — review & click Analyse`);
-
+    progressEl.classList.remove('visible'); isTranscribing = false; tb.disabled = false;
+    setStatus('done', `✓ Transcribed ${dur}s — review & click Analyse`);
   } catch (err) {
-    progressEl.classList.remove('visible');
-    isTranscribing = false;
-    transcribeBtn.disabled = false;
-
-    const isEmpty = err.message.includes('empty');
-    showAlert('error',
-      isEmpty ? 'Empty transcription' : 'Transcription failed',
-      isEmpty ? err.message : `Whisper failed mid-transcription: ${err.message}`, [
-        { label: '↺ Retry', action: () => { dismissAlert(); transcribeAudio(); }, primary: true },
-        { label: 'Try tiny.en (faster)', action: () => {
-          document.getElementById('whisperModel').value = 'Xenova/whisper-tiny.en';
-          whisperPipe = null;
-          dismissAlert();
-          transcribeAudio();
-        }},
-      ]);
-    setStatus('error', 'Transcription failed');
+    progressEl.classList.remove('visible'); isTranscribing = false; tb.disabled = false;
+    showAlert('error', err.message.includes('empty') ? 'Empty transcription' : 'Transcription failed', err.message, [
+      { label: '↺ Retry', primary: true, action: () => { dismissAlert(); transcribeAudio(); } },
+    ]);
   }
 };
 
 document.getElementById('whisperModel').addEventListener('change', () => {
   whisperPipe = null;
-  if (audioFile) {
-    const s = document.getElementById('whisperModel').value.split('/')[1];
-    document.getElementById('whisperBadge').textContent = `${s} · loads on first transcribe`;
-  }
+  if (audioFile) document.getElementById('whisperBadge').textContent = document.getElementById('whisperModel').value.split('/')[1] + ' · loads on first transcribe';
 });
 
 // ── Text file load ────────────────────────────────────────────────────────────
 
 window.loadTextFile   = () => document.getElementById('textFileInput').click();
-window.handleTextFile = function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  // Guard: text files larger than 5 MB are unusual
+window.handleTextFile = function(e) {
+  const file = e.target.files[0]; if (!file) return;
   const sizeMB = file.size / (1024 * 1024);
   if (sizeMB > 5) {
-    showAlert('warn', 'Large text file',
-      `${file.name} is ${sizeMB.toFixed(1)} MB. Very long transcripts may exceed the model's context window.`, [
-        { label: 'Load anyway', action: () => { dismissAlert(); _loadTextFile(file); } },
-        { label: 'Cancel', action: dismissAlert },
-      ]);
-    e.target.value = '';
-    return;
+    showAlert('warn', 'Large text file', `${file.name} is ${sizeMB.toFixed(1)} MB. May exceed context window.`, [
+      { label: 'Load anyway', action: () => { dismissAlert(); _loadText(file); } },
+      { label: 'Cancel', action: dismissAlert },
+    ]);
+    e.target.value = ''; return;
   }
-
-  _loadTextFile(file);
-  e.target.value = '';
+  _loadText(file); e.target.value = '';
 };
 
-function _loadTextFile(file) {
+function _loadText(file) {
   const reader = new FileReader();
-  reader.onload = ev => {
-    document.getElementById('transcript').value = ev.target.result;
-    updateTokenCount();
-    setStatus('', `Loaded: ${file.name}`);
-  };
-  reader.onerror = () => showAlert('error', 'Could not read file', `Failed to read "${file.name}". The file may be corrupt or inaccessible.`, []);
+  reader.onload = ev => { document.getElementById('transcript').value = ev.target.result; updateTokenCount(); setStatus('', `Loaded: ${file.name}`); };
+  reader.onerror = () => showAlert('error', 'Could not read file', `Failed to read "${file.name}".`, []);
   reader.readAsText(file);
 }
 
@@ -886,7 +855,10 @@ function _loadTextFile(file) {
 const outputEl = document.getElementById('output');
 
 function clearOutput() {
-  outputEl.innerHTML = '';
+  outputEl.innerHTML = '<span class="placeholder-msg">Your structured debrief will appear here after analysis…</span>';
+  fullDebrief = '';
+  document.getElementById('saveBtn').disabled = true;
+  document.getElementById('copyBtn').disabled = true;
 }
 
 function renderMarkdown(text) {
@@ -899,24 +871,16 @@ function renderMarkdown(text) {
   outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ── Alert banner ──────────────────────────────────────────────────────────────
 
 function showAlert(type, title, msg, actions) {
-  const banner  = document.getElementById('alertBanner');
-  const icon    = document.getElementById('alertIcon');
-  const titleEl = document.getElementById('alertTitle');
-  const msgEl   = document.getElementById('alertMsg');
-  const actEl   = document.getElementById('alertActions');
-
-  banner.className  = `alert-banner ${type} show`;
-  icon.textContent  = type === 'error' ? '✕' : '⚠';
-  titleEl.textContent = title;
-  msgEl.textContent   = msg;
-
+  const banner = document.getElementById('alertBanner');
+  document.getElementById('alertIcon').textContent  = type === 'error' ? '✕' : '⚠';
+  document.getElementById('alertTitle').textContent = title;
+  document.getElementById('alertMsg').textContent   = msg;
+  const actEl = document.getElementById('alertActions');
   actEl.innerHTML = '';
   actions.forEach(({ label, action, primary }) => {
     const btn = document.createElement('button');
@@ -925,28 +889,19 @@ function showAlert(type, title, msg, actions) {
     btn.onclick     = action;
     actEl.appendChild(btn);
   });
+  banner.className = `alert-banner ${type} show`;
 }
 
-window.dismissAlert = function () {
-  document.getElementById('alertBanner').className = 'alert-banner';
-};
+window.dismissAlert = function() { document.getElementById('alertBanner').className = 'alert-banner'; };
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
 
 function setBusy(busy) {
-  const ab  = document.getElementById('analyseBtn');
-  const sb  = document.getElementById('stopBtn');
-  const bar = document.getElementById('progressBar');
-  ab.disabled    = busy;
-  ab.textContent = busy ? '⏳  Analysing…' : '✦  Analyse';
+  const ab = document.getElementById('analyseBtn'), sb = document.getElementById('stopBtn'), bar = document.getElementById('progressBar');
+  ab.disabled = busy; ab.textContent = busy ? '⏳  Analysing…' : '✦  Analyse';
   sb.style.display = busy ? 'inline-flex' : 'none';
-  if (busy) {
-    bar.classList.add('indeterminate');
-    setStatus('active', `Streaming from ${document.getElementById('modelSelect').value}…`);
-  } else {
-    bar.classList.remove('indeterminate');
-    bar.style.width = '0%';
-  }
+  bar.className = busy ? 'progress-bar indeterminate' : 'progress-bar';
+  if (!busy) bar.style.width = '0';
 }
 
 function setStatus(type, msg) {
@@ -955,49 +910,48 @@ function setStatus(type, msg) {
   el.innerHTML = `<span class="dot"></span>${msg}`;
 }
 
-window.clearTranscript = function () {
-  document.getElementById('transcript').value = '';
-  updateTokenCount();
-  setStatus('', 'Transcript cleared.');
-};
-
-window.clearAll = function () {
-  window.clearTranscript();
-  clearOutput();
-  outputEl.innerHTML = '<span class="placeholder-msg">Your structured debrief will appear here after analysis…</span>';
-  document.getElementById('saveBtn').disabled = true;
-  document.getElementById('copyBtn').disabled = true;
-  fullDebrief = '';
-  window.clearAudio();
-  dismissAlert();
+window.clearTranscript = function() { document.getElementById('transcript').value = ''; updateTokenCount(); };
+window.clearAll = function() {
+  window.clearTranscript(); clearOutput(); window.clearAudio(); dismissAlert(); activeDebriefId = null;
   setStatus('', 'Ready — paste a transcript, load a file, or upload audio.');
+  if (historyOpen) {
+    document.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
+  }
 };
 
-window.saveDebrief = function () {
+window.saveDebrief = function() {
   if (!fullDebrief) return;
-  const now = new Date();
-  const ts  = now.toISOString().slice(0,16).replace('T','_').replace(':','-');
-  const hdr = `# Meeting Debrief\n_Generated: ${now.toLocaleString()}_\n\n`;
-  const blob = new Blob([hdr + fullDebrief], { type: 'text/markdown' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob), download: `debrief_${ts}.md`,
-  });
+  const now = new Date(), ts = now.toISOString().slice(0,16).replace('T','_').replace(':','-');
+  const blob = new Blob([`# Meeting Debrief\n_Generated: ${now.toLocaleString()}_\n\n` + fullDebrief], { type: 'text/markdown' });
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `debrief_${ts}.md` });
   a.click(); URL.revokeObjectURL(a.href);
   setStatus('done', 'Saved!');
 };
 
-window.copyDebrief = async function () {
+window.copyDebrief = async function() {
   if (!fullDebrief) return;
   await navigator.clipboard.writeText(fullDebrief);
-  const btn = document.getElementById('copyBtn');
-  const orig = btn.textContent;
+  const btn = document.getElementById('copyBtn'), orig = btn.textContent;
   btn.textContent = '✓ Copied';
   setTimeout(() => btn.textContent = orig, 2000);
 };
 
+// ── Utils ─────────────────────────────────────────────────────────────────────
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso.endsWith('Z') ? iso : iso + 'Z');
+  const today = new Date();
+  if (d.toDateString() === today.toDateString()) {
+    return 'Today ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  return d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' '
+       + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 // ── Event listeners ───────────────────────────────────────────────────────────
 
-document.getElementById('transcript').addEventListener('input',   updateTokenCount);
+document.getElementById('transcript').addEventListener('input', updateTokenCount);
 document.getElementById('transcript').addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') window.startAnalysis();
 });
