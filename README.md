@@ -1,4 +1,4 @@
-# Meeting Debrief AI Assistant
+# Meeting Debrief AI Assistant README
 
 A local-first meeting intelligence tool. Paste or record a transcript, get back a structured debrief — action items, decisions, open questions, and a summary — in seconds.
 
