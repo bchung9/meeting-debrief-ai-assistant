@@ -2,7 +2,7 @@
 
 A local-first meeting intelligence tool. Paste or record a transcript, get back a structured debrief — action items, decisions, open questions, and a summary — in seconds.
 
-Everything runs on your machine. No API keys. No subscriptions. No data sent to the cloud.
+Everything runs on your machine. No API keys (there is a version that requires API keys). No subscriptions. No data sent to the cloud.
 
 ---
 
