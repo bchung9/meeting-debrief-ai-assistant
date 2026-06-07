@@ -1,37 +1,3 @@
-"""
-Meeting Debrief Assistant — Ollama Edition
-==========================================
-Runs 100% locally using Ollama. No API key. No data leaves your machine.
-
-Paste or load a meeting transcript and get back a structured debrief:
-  - Executive summary
-  - Action items (owner + due date when mentioned)
-  - Key decisions made
-  - Open questions / unresolved items
-
-Requirements:
-    1. Install Ollama:        https://ollama.com/download
-    2. Pull a model:          ollama pull llama3.2
-    3. Install Python lib:    pip install ollama
-
-Usage:
-    # Analyse a transcript file
-    python meeting_debrief_ollama.py --file transcript.txt
-
-    # Paste text interactively
-    python meeting_debrief_ollama.py
-
-    # Use a different model
-    python meeting_debrief_ollama.py --file transcript.txt --model mistral
-
-    # Save the debrief to a Markdown file
-    python meeting_debrief_ollama.py --file transcript.txt --output debrief.md
-
-Recommended models (pick one):
-    llama3.2     — fast, great quality         (~2 GB)
-    mistral      — strong reasoning             (~4 GB)
-    gemma3       — efficient, very accurate     (~3 GB)
-"""
 
 import ollama
 import argparse
